@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { routerActions } from 'react-router-redux'
 
@@ -41,6 +42,13 @@ class AuthScreen extends React.Component {
       this.setState({
         validatingSession: false
       })
+
+      this.props.updateSession(session)
+
+      /** redirect to home */
+      // setTimeout(() => {
+      //   this.props.dispatch(routerActions.replace('/'))
+      // }, 2000)
     }, 2000)
   }
 
@@ -54,7 +62,7 @@ class AuthScreen extends React.Component {
     } else {
       return (
         <div>
-          {JSON.stringify(this.state.session)}
+          Redirecting to app ...
         </div>
       )
     }
@@ -73,4 +81,11 @@ class AuthScreen extends React.Component {
   }
 }
 
-export default AuthScreen
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: (action) => dispatch(action),
+    updateSession: (session) => dispatch({type: 'SESSION_UPDATE', payload: session})
+  }
+}
+
+export default connect(null, mapDispatchToProps)(AuthScreen)
