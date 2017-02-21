@@ -6,8 +6,6 @@ import { routerActions } from 'react-router-redux'
 class App extends React.Component {
   constructor (props) {
     super(props)
-
-    // console.log(this.props.dispatcher({type: 'Troll'}))
   }
 
   componentDidMount () {
@@ -16,14 +14,23 @@ class App extends React.Component {
     }
   }
 
-  render () {
+  _renderSessionInfo () {
     return (
       <div>
+        {JSON.stringify(this.props.session)}
+      </div>
+    )
+  }
+
+  render () {
+    return (
+      <div style={{display: 'flex', flexDirection: 'column'}}>
         <h1>It Works!</h1>
         <p>This React project just works including <span className="redBg">module</span> local styles.</p>
         <p>Enjoy!!!</p>
         <a href='http://localhost:3000/auth/linkedin'>Login with LinkedIn</a>
         <Link to={'/notfound'}>Not Found</Link>
+        {this._renderSessionInfo()}
       </div>
     )
   }
