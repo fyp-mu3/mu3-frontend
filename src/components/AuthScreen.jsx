@@ -10,14 +10,13 @@ class AuthScreen extends React.Component {
 
     let _state = {
       validatingSession: false,
-      hasSession: false
+      session: null
     }
 
     if (session) {
       _state.validatingSession = true
-      _state.hasSession = true
-    } else {
-      _state.hasSession = false
+      _state.session = session
+      this._validateSession(session)
     }
 
     this.state = _state
@@ -38,23 +37,39 @@ class AuthScreen extends React.Component {
   }
 
   _validateSession (session) {
-
+    setTimeout(() => {
+      this.setState({
+        validatingSession: false
+      })
+    }, 2000)
   }
 
   _renderValidatingSession () {
-
+    if (this.state.validatingSession) {
+      return (
+        <div>
+          Validating session ...
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          {JSON.stringify(this.state.session)}
+        </div>
+      )
+    }
   }
 
   _renderLoginBox () {
-    
-  }
-
-  render () {
     return (
       <div>
         <a href={'http://localhost:3000/auth/linkedin'}>Login with LinkedIn</a>
       </div>
     )
+  }
+
+  render () {
+    return this.state.session ? this._renderValidatingSession() : this._renderLoginBox()
   }
 }
 
