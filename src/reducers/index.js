@@ -1,5 +1,5 @@
-import sessionReducer from './sessionReducer'
+import SessionRedux from './SessionRedux'
 
 export default {
-  session: sessionReducer
+  session: SessionRedux
 }
