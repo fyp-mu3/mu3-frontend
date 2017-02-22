@@ -30,12 +30,12 @@ class NavigationTop extends React.Component {
     return (
       <nav className='nav' style={{height: 60, backgroundColor: '#EDEDED', borderBottom: '1px solid #D9DEE4'}}>
         <div className='nav-left' style={{paddingLeft: Metrics.baseMargin}}>
-          <div className='flex flexCenterVertical'>
+          <div className='nav-item'>
             {this._renderBarMenuButton()}
           </div>
         </div>
         <div className='nav-right' style={{paddingRight: Metrics.baseMargin}}>
-          <div className='flex flexCenterVertical'>
+          <div className='nav-item'>
             {this._renderNameBadge()}
           </div>
         </div>

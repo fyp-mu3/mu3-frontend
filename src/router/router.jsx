@@ -8,6 +8,8 @@ const _Router = (history) => {
   return (
     <Router history={history}>
       <Route path='/' component={App} />
+      <Route path='/app' component={App} />
+      <Route path='/app/:route' component={App} />
       <Route path='/login' component={AuthScreen} />
       <Route path='/notfound' component={NotFound} />
     </Router>

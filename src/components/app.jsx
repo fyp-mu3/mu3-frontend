@@ -26,16 +26,24 @@ class App extends React.Component {
     )
   }
 
+  _renderMainContent (route) {
+    return JSON.stringify(route)
+  }
+
   render () {
     return (
+      /* render main wrapper, behave like a ScrollView */
       <div style={{
         display: 'flex',
         flexDirection: 'row',
         height: '100vh'
       }}>
         <NavigationLeft />
+        {/* render right wrapper */}
         <div style={{flexGrow: 1, height: '100vh'}}>
           <NavigationTop />
+          {/* render main content */}
+          {this._renderMainContent(this.props.router)}
         </div>
       </div>
     )
