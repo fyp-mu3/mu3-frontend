@@ -17,7 +17,7 @@ loaders.push({
 
 module.exports = {
 	entry: [
-		'react-hot-loader/patch',
+		// 'react-hot-loader/patch',
 		'./src/index.jsx', // your app's entry point
 		'./styles/index.scss'
 	],
@@ -38,7 +38,7 @@ module.exports = {
 		// do not print bundle build stats
 		noInfo: true,
 		// enable HMR
-		hot: true,
+		hot: false,
 		// embed the webpack-dev-server runtime into the bundle
 		inline: true,
 		// serve index.html in place of 404 responses to allow HTML5 history
@@ -48,9 +48,9 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.NoErrorsPlugin(),
-		new webpack.HotModuleReplacementPlugin(),
-	    new ExtractTextPlugin("style.css", {
-		      allChunks: true
+		// new webpack.HotModuleReplacementPlugin(),
+		new ExtractTextPlugin("style.css", {
+				allChunks: true
 		}),
 		new DashboardPlugin(),
 		new HtmlWebpackPlugin({

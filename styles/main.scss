@@ -2,8 +2,12 @@ html, body {
     overflow: auto;
 }
 
+html {
+	background-color: #2A3F54 !important;
+}
+
 body {
-	background-color: #ece7e7;
+	background-color: #F7F7F7;
 	min-height: 100vh;
 	height: 100vh;
 }
@@ -11,4 +15,13 @@ body {
 #appContainer {
 	display: flex;
 	flex-direction: 'row';
+}
+
+.flex {
+	display: flex;
+}
+
+.flexCenterVertical {
+	flex-direction: row;
+	align-items: center;
 }
