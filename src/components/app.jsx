@@ -10,7 +10,7 @@ class App extends React.Component {
 
   componentDidMount () {
     if (!this.props.session.passport) {
-      this.props.dispatch(routerActions.replace('/login'))
+      this.props.goAuth()
     }
   }
 
@@ -39,7 +39,7 @@ class App extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch: (action) => { dispatch(action) },
-    goAuth: () => dispatch(routerActions.replace('/notfound'))
+    goAuth: () => dispatch(routerActions.replace('/login'))
   }
 }
 
