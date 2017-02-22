@@ -45,7 +45,7 @@ const store = createStore(
 const history = syncHistoryWithStore(browserHistory, store)
 
 /** begin periodically persisting the store */
-persistStore(store, {}, () => {
+persistStore(store, {blacklist: ['routing']}, () => {
   console.log('redux-persist rehydration complete')
 })
 

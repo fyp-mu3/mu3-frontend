@@ -31,7 +31,7 @@ const sessionReducer = (state = initialState, action) => {
   }
 
   if (action.type === REHYDRATE) {
-    return action.payload.session
+    return action.payload.session || {...state}
   }
 
   return {...state}
