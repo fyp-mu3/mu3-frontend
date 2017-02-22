@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { routerActions } from 'react-router-redux'
+import { SessionActions } from '../reducers/SessionRedux'
 
 class AuthScreen extends React.Component {
   constructor (props) {
@@ -21,6 +22,12 @@ class AuthScreen extends React.Component {
     }
 
     this.state = _state
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.appSession.passport) {
+      this.props.dispatch(routerActions.replace('/'))
+    }
   }
 
   _decodeSessionFromURL () {
@@ -44,11 +51,6 @@ class AuthScreen extends React.Component {
       })
 
       this.props.updateSession(session)
-
-      /** redirect to home */
-      // setTimeout(() => {
-      //   this.props.dispatch(routerActions.replace('/'))
-      // }, 2000)
     }, 2000)
   }
 
@@ -81,11 +83,17 @@ class AuthScreen extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    dispatch: (action) => dispatch(action),
-    updateSession: (session) => dispatch({type: 'SESSION_UPDATE', payload: session})
+    appSession: state.session
   }
 }
 
-export default connect(null, mapDispatchToProps)(AuthScreen)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: (action) => dispatch(action),
+    updateSession: (session) => dispatch(SessionActions.updateSession(session))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen)
