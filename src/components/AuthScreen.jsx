@@ -9,7 +9,6 @@ class AuthScreen extends React.Component {
     super(props)
 
     let session = this._decodeSessionFromURL()
-    console.log('cosntructor', session);
 
     let _state = {
       validatingSession: false,
@@ -52,11 +51,6 @@ class AuthScreen extends React.Component {
       })
 
       this.props.updateSession(session)
-
-      /** redirect to home */
-      // setTimeout(() => {
-      //   this.props.dispatch(routerActions.replace('/'))
-      // }, 2000)
     }, 2000)
   }
 
