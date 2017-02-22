@@ -2,33 +2,59 @@ import React from 'react'
 import { render } from 'react-dom'
 
 /** react-router-redux */
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
-import { Router, Route, browserHistory } from 'react-router'
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import { browserHistory } from 'react-router'
+import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
+
+import createRouter from './router/router'
+
+/** redux persist */
+import { persistStore, autoRehydrate } from 'redux-persist'
 
 import { AppContainer } from 'react-hot-loader'
-import App from './app.jsx'
-import NotFound from './notfound'
 
+import reducers from './reducers'
+
+/** Reducers */
 const reducer = combineReducers({
+  ...reducers,
   routing: routerReducer
 })
 
+/** Middlewares */
+/** https://github.com/zalmoxisus/redux-devtools-extension */
+const composeEnhancers =
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?  
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+    }) : compose
+
+const enhancer = composeEnhancers(
+  applyMiddleware(routerMiddleware(browserHistory)),
+  autoRehydrate()
+)
+
 const store = createStore(
   reducer,
-  {}, // initialState
+  /* preloadStates, */
+  enhancer
 )
 
 const history = syncHistoryWithStore(browserHistory, store)
 
+/** begin periodically persisting the store */
+persistStore(store, {}, () => {
+  console.log('redux-persist rehydration complete')
+})
+
 render(
-  <Provider store={store}>
-    <Router history={history}>
-      <Route path='/' component={App} />
-      <Route path='/notfound' component={NotFound} />
-    </Router>
-  </Provider>
+  <AppContainer>
+    <Provider store={store}>
+      {createRouter(history)}
+    </Provider>
+  </AppContainer>
   , document.querySelector('#app')
 )
 
