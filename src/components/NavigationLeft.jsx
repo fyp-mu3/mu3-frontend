@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Metrics from '../common/metrics'
+import { Link } from 'react-router'
 
 class NavigationMenu extends React.Component {
   _renderRow (rowData, rowID) {
     return (
       <div key={`navigation-menu-${rowID}-${rowData.key}`}>
-        <a href='#' style={{
+        <Link to={rowData.url} style={{
           display: 'flex',
           paddingTop: 13,
           paddingRight: 15,
@@ -16,7 +17,7 @@ class NavigationMenu extends React.Component {
         }}>
           <span style={{flexGrow: 1}}>{rowData.title}</span>
           <span style={{}}>v</span>
-        </a>
+        </Link>
       </div>
     )
   }
@@ -56,11 +57,18 @@ class NavigationLeft extends React.Component {
     return [
       {
         key: 'home',
-        title: 'Home'
+        title: 'Home',
+        url: '/home'
       },
       {
         key: 'Forms',
-        title: 'Forms'
+        title: 'Forms',
+        url: '/forms'
+      },
+      {
+        key: 'Notfound',
+        title: 'Notfound',
+        url: '/notfound'
       }
     ]
   }

@@ -27,7 +27,7 @@ class App extends React.Component {
   }
 
   _renderMainContent (route) {
-    return JSON.stringify(route)
+    return this.props.children
   }
 
   render () {
