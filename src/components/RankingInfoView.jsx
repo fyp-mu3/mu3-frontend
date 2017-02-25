@@ -2,9 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Metrics from '../common/metrics'
-import CardView from './CardView'
 
+import CardView from './CardView'
 import ListView from './ListView'
+import Touchable from './Touchable'
 
 class RankingInfoView extends React.PureComponent {
 
@@ -39,9 +40,9 @@ class RankingInfoView extends React.PureComponent {
 
   _renderRow (rowData, rowID, sectionID) {
     return (
-      <div key={`latest-challenges-${rowID}`}>
-        {JSON.stringify(rowData)}
-      </div>
+      <Touchable key={`latest-challenges-${rowID}`}>
+        <div>{JSON.stringify(rowData)}</div>
+      </Touchable>
     )
   }
   /** end ListView delegate */
