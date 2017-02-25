@@ -7,6 +7,8 @@ import { SessionActions } from '../reducers/SessionRedux'
 import NavigationLeft from './NavigationLeft'
 import NavigationTop from './NavigationTop'
 
+import Metrics from '../common/metrics'
+
 class App extends React.Component {
   constructor (props) {
     super(props)
@@ -27,7 +29,11 @@ class App extends React.Component {
   }
 
   _renderMainContent (route) {
-    return this.props.children
+    return (
+      <div className='container' style={{overflowX: 'hidden', margin: Metrics.baseMargin}}>
+        {this.props.children}
+      </div>
+    )
   }
 
   render () {
@@ -36,11 +42,13 @@ class App extends React.Component {
       <div style={{
         display: 'flex',
         flexDirection: 'row',
-        height: '100vh'
+        height: '100vh',
+        width: '100wh',
+        overflow: 'hidden'
       }}>
         <NavigationLeft />
         {/* render right wrapper */}
-        <div style={{flexGrow: 1, height: '100vh'}}>
+        <div style={{flexGrow: 1, height: '100vh', overflowY: 'scroll'}}>
           <NavigationTop />
           {/* render main content */}
           {this._renderMainContent(this.props.router)}

@@ -16,7 +16,7 @@ class NavigationMenu extends React.Component {
           flexDirection: 'row'
         }}>
           <span style={{flexGrow: 1}}>{rowData.title}</span>
-          <span style={{}}>v</span>
+          <span className='icon is-small'><i className='fa fa-angle-down' aria-hidden='true' /></span>
         </Link>
       </div>
     )
@@ -85,12 +85,15 @@ class NavigationLeft extends React.Component {
 
   render () {
     return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#2A3F54',
-        width: 230
-      }}>
+      <div
+        className='is-hidden-mobile'
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: '#2A3F54',
+          width: 230,
+          minWidth: 230
+        }}>
         {this._renderLogo()}
         <NavigationMenu
           sectionTitle={'GENERAL'}

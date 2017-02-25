@@ -25,3 +25,19 @@ body {
 	flex-direction: row;
 	align-items: center;
 }
+
+.flexApplySpaceMargin {	
+}
+
+.flexApplySpaceMargin > div {
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.flexApplySpaceMargin > div:first-child {
+	margin-left: 0px;
+}
+
+.flexApplySpaceMargin > div:last-child {
+	margin-right: 0px;
+}

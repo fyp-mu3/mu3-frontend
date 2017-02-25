@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import FontAwesome from 'react-fontawesome'
 import Metrics from '../common/metrics'
 
 class NavigationTop extends React.Component {
@@ -11,7 +10,7 @@ class NavigationTop extends React.Component {
     return (
       <a className='flex flexCenterVertical'>
         {this.props.currentUser.profile.displayName}
-        <span className='icon is-small'>
+        <span className='icon is-small' style={{marginLeft: 8}}>
           <i className='fa fa-angle-down' aria-hidden='true' />
         </span>
       </a>
