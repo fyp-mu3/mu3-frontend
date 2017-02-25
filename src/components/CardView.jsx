@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Metrics from '../common/metrics'
+import { merge } from 'lodash'
 
 export default class CardView extends React.PureComponent {
 
@@ -17,13 +18,19 @@ export default class CardView extends React.PureComponent {
         </div>
       )
     } else {
-      return null
+      return <div />
     }
   }
 
   render () {
+    let _style = containerStyle
+    if (this.props.style) {
+      _style = merge(containerStyle, this.props.style)
+    }
+
     return (
-      <div style={containerStyle}>
+      <div
+        style={_style}>
         {this._renderHeader()}
         {this.props.children}
       </div>
@@ -37,7 +44,8 @@ const containerStyle = {
   alignItems: 'stretch',
   padding: Metrics.baseMargin,
   background: 'white',
-  border: '1px solid #E6E9ED'
+  border: '1px solid #E6E9ED',
+  marginBottom: Metrics.baseMargin
 }
 
 const seperatorStyle = {

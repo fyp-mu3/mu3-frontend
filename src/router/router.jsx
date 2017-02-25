@@ -3,16 +3,18 @@ import { Router, Route, IndexRoute, Redirect } from 'react-router'
 import App from '../components/app'
 import NotFound from '../components/notfound'
 import AuthScreen from '../components/AuthScreen'
-import Home from '../components/Home'
+import HomeScreen from '../components/HomeScreen'
+import CodeChallengesScreen from '../components/CodeChallengesScreen'
 
 const _Router = (history) => {
   return (
     <Router history={history}>
 
       <Route path='/' component={App}>
-        <IndexRoute component={Home} />
-        <Route path='/home' component={Home} />
-        <Route path='/forms' component={NotFound} /> 
+        <IndexRoute component={HomeScreen} />
+        <Route path='/home' component={HomeScreen} />
+        <Route path='/forms' component={NotFound} />
+        <Route path='/codeChallenges' component={CodeChallengesScreen} />
         <Route path='/notfound' component={NotFound} />
       </Route>
 

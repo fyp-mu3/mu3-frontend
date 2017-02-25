@@ -1,16 +1,17 @@
+// @flow
+
 import React from 'react'
 import { connect } from 'react-redux'
 
 import PositionListView from './PositionsListView'
+import RankingInfoView from './RankingInfoView'
 
 class Home extends React.Component {
 
   render () {
-    const user = this.props.passport || {}
-
     return (
-      <div>
-        <h1>Home</h1>
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <RankingInfoView />
         <PositionListView />
       </div>
     )
@@ -19,7 +20,6 @@ class Home extends React.Component {
 
 const mapStateToPros = (state) => {
   return {
-    passport: state.session
   }
 }
 

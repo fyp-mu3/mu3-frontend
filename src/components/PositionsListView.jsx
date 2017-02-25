@@ -85,7 +85,8 @@ class PositionListView extends React.PureComponent<Props, State> {
 
   render () {
     return (
-      <CardView 
+      <CardView
+        {...this.props}
         renderHeader={this._renderHeader.bind(this)}>
         <ListView
           dataSource={this._prepareDataSource()}

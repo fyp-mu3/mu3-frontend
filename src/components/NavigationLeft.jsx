@@ -17,7 +17,7 @@ class NavigationMenu extends React.Component {
     let icon = null
 
     if (rowData.iconType && rowData.iconType === 'fa') {
-      icon = <span className='icon' style={{marginRight: 8}}><i className='fa fa-home' aria-hidden='true' /></span>
+      icon = <span className='icon' style={{marginRight: 8}}><i className={`${rowData.iconUri}`}aria-hidden='true' /></span>
     }
 
     return (
@@ -82,9 +82,11 @@ class NavigationLeft extends React.Component {
         iconUri: 'fa fa-home'
       },
       {
-        key: 'Forms',
-        title: 'Forms',
-        url: '/forms'
+        key: 'codeChallenges',
+        title: 'Code Challenges',
+        url: '/codeChallenges',
+        iconType: 'fa',
+        iconUri: 'fa fa-code'
       },
       {
         key: 'Notfound',

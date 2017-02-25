@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { merge } from 'lodash'
 
 type Props = {
   renderRow: (rowData: any, rowID: number, sectionID: number) => any,
@@ -22,8 +23,10 @@ class ListView extends React.PureComponent<Props, {}> {
   }
 
   render () {
+    let _style = merge(listViewStyle, this.props.style || {})
+
     return (
-      <div style={listViewStyle}>
+      <div style={_style}>
         {
           this.props.dataSource.map((item, index) => {
             return this._renderRow(item, index, 0)
