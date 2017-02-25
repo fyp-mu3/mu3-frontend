@@ -12,6 +12,7 @@ const _Router = (history) => {
       <Route path='/' component={App}>
         <IndexRoute component={Home} />
         <Route path='/home' component={Home} />
+        <Route path='/forms' component={NotFound} /> 
         <Route path='/notfound' component={NotFound} />
       </Route>
 

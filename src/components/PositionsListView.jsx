@@ -62,8 +62,17 @@ class PositionListView extends React.PureComponent<Props, State> {
 
   _renderRow (rowData: PositionItem, rowID) {
     return (
-      <div key={`PositionListView-${rowID}`} style={{backgroundColor: rowID % 2 == 0 ? '#F5F5F5' : 'transparent'}}>
-        {rowData.title}
+      <div 
+        key={`PositionListView-${rowID}`}
+        className='flex flexApplySpaceMargin'
+        style={{
+          backgroundColor: rowID % 2 == 0 ? '#F5F5F5' : 'transparent'
+        }}>
+        <div className='flex'
+          style={{width: 80, height: 80, backgroundColor: '#ddd', alignItems: 'center', justifyContent: 'center'}}>
+          <span>media</span>
+        </div>
+        <div>{rowData.title}</div>
       </div>
     )
   }
