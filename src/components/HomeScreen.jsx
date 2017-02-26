@@ -7,7 +7,6 @@ import PositionListView from './PositionsListView'
 import RankingInfoView from './RankingInfoView'
 
 class Home extends React.Component {
-
   render () {
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -18,9 +17,13 @@ class Home extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
 const mapStateToPros = (state) => {
   return {
   }
 }
 
-export default connect(mapStateToPros, null)(Home)
+export default connect(mapStateToPros, mapDispatchToProps)(Home)

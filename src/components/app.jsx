@@ -9,9 +9,15 @@ import NavigationTop from './NavigationTop'
 
 import Metrics from '../common/metrics'
 
+import { Thunk } from '../reducers/CodeChallengesRedux'
+
 class App extends React.Component {
   constructor (props) {
     super(props)
+  }
+
+  componentDidMount () {
+    this.props.fetchCodeChallenges(0)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -71,7 +77,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatch: (action) => { dispatch(action) },
     goAuth: () => dispatch(routerActions.replace('/login')),
-    logout: () => dispatch(SessionActions.destroySession())
+    logout: () => dispatch(SessionActions.destroySession()),
+    fetchCodeChallenges: (offset: number) => {
+      dispatch(Thunk.fetch(offset))
+    }
   }
 }
 

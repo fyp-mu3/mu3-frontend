@@ -12,6 +12,9 @@ import createRouter from './router/router'
 /** redux persist */
 import { persistStore, autoRehydrate } from 'redux-persist'
 
+/** redux-thunk */
+import thunk from 'redux-thunk'
+
 import { AppContainer } from 'react-hot-loader'
 
 import reducers from './reducers'
@@ -32,7 +35,7 @@ const composeEnhancers =
     }) : compose
 
 const enhancer = composeEnhancers(
-  applyMiddleware(routerMiddleware(browserHistory)),
+  applyMiddleware(routerMiddleware(browserHistory), thunk),
   autoRehydrate()
 )
 
@@ -45,7 +48,7 @@ const store = createStore(
 const history = syncHistoryWithStore(browserHistory, store)
 
 /** begin periodically persisting the store */
-persistStore(store, {blacklist: ['routing']}, () => {
+persistStore(store, {whitelist: ['session']}, () => {
   console.log('redux-persist rehydration complete')
 })
 

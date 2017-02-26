@@ -1,5 +1,7 @@
 import SessionRedux from './SessionRedux'
+import CodeChallengesRedux from './CodeChallengesRedux'
 
 export default {
-  session: SessionRedux
+  session: SessionRedux,
+  codeChallenges: CodeChallengesRedux
 }

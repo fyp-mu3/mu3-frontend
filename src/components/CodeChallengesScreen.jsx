@@ -1,10 +1,15 @@
+// @flow
+
 import React from 'react'
+import { connect } from 'react-redux'
 
 import CardView from './CardView'
 import ListView from './ListView'
 import Touchable from './Touchable'
 
 import Metrics from '../common/metrics'
+
+import type { CodeChallenge } from '../models/CodeChallenge'
 
 class CodeChallengesScreen extends React.PureComponent {
   _renderDescription () {
@@ -26,11 +31,7 @@ class CodeChallengesScreen extends React.PureComponent {
   }
 
   _prepareDataSource () {
-    return [
-      {rank: 'S', title: 'fab num'},
-      {rank: 'A', title: 'Quick sort'},
-      {rank: 'D', title: 'Greedy algo'}
-    ]
+    return this.props.codeChallenges.items
   }
 
   _renderSectionTitle () {
@@ -65,4 +66,10 @@ class CodeChallengesScreen extends React.PureComponent {
   }
 }
 
-export default CodeChallengesScreen
+const mapStateToProps = (state) => {
+  return {
+    codeChallenges: state.codeChallenges
+  }
+}
+
+export default connect(mapStateToProps, null)(CodeChallengesScreen)

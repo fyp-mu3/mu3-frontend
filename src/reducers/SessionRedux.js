@@ -34,7 +34,7 @@ const sessionReducer = (state = initialState, action) => {
     return action.payload.session || {...state}
   }
 
-  return {...state}
+  return state
 }
 
 export default sessionReducer

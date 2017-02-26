@@ -31,11 +31,7 @@ class RankingInfoView extends React.PureComponent {
 
   /** ListView delegate: Latest Challenges */
   _prepareDataSource () {
-    return [
-      {rank: 'S', title: 'fab num'},
-      {rank: 'A', title: 'Quick sort'},
-      {rank: 'D', title: 'Greedy algo'}
-    ]
+    return this.props.codeChallenges.items
   }
 
   _renderRow (rowData, rowID, sectionID) {
@@ -69,7 +65,8 @@ class RankingInfoView extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    session: state.session
+    session: state.session,
+    codeChallenges: state.codeChallenges
   }
 }
 
