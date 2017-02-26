@@ -1,6 +1,7 @@
 // @flow
 
 export type CodeChallenge = {
+  id: string,
   /**
    * Title display
    */

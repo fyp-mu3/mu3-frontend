@@ -5,6 +5,7 @@ import NotFound from '../components/notfound'
 import AuthScreen from '../components/AuthScreen'
 import HomeScreen from '../components/HomeScreen'
 import CodeChallengesScreen from '../components/CodeChallengesScreen'
+import CodeChallengeView from '../components/CodeChallengeView'
 
 const _Router = (history) => {
   return (
@@ -15,6 +16,7 @@ const _Router = (history) => {
         <Route path='/home' component={HomeScreen} />
         <Route path='/forms' component={NotFound} />
         <Route path='/codeChallenges' component={CodeChallengesScreen} />
+        <Route path='/codeChallenges/:id' component={CodeChallengeView} />
         <Route path='/notfound' component={NotFound} />
       </Route>
 

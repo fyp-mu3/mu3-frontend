@@ -68,7 +68,7 @@ const _fetchCodeChallenges = (offset: number) => {
 }
 
 const dummyData: [CodeChallenge] = [
-  {rank: 'S', title: 'fab num', skills: 5, languages: []},
-  {rank: 'A', title: 'Quick sort', skills: 4, languages: []},
-  {rank: 'D', title: 'Greedy algo', skills: 2, languages: []}
+  {id: '1', rank: 'S', title: 'fab num', skills: 5, languages: []},
+  {id: '2', rank: 'A', title: 'Quick sort', skills: 4, languages: []},
+  {id: '3', rank: 'D', title: 'Greedy algo', skills: 2, languages: []}
 ]

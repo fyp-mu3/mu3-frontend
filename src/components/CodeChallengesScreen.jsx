@@ -9,6 +9,8 @@ import Touchable from './Touchable'
 
 import Metrics from '../common/metrics'
 
+import { Link } from 'react-router'
+
 import type { CodeChallenge } from '../models/CodeChallenge'
 
 class CodeChallengesScreen extends React.PureComponent {
@@ -38,9 +40,11 @@ class CodeChallengesScreen extends React.PureComponent {
     return <h1>Code Challenges</h1>
   }
 
-  _renderRow (rowData, rowID, sectionID) {
+  _renderRow (rowData: CodeChallenge, rowID, sectionID) {
     return (
-      <Touchable key={`codeChallenges-${rowID}`}><a>{JSON.stringify(rowData)}</a></Touchable>
+      <Touchable key={`codeChallenges-${rowID}`}>
+        <Link to={`/codeChallenges/${rowData.id}`}>{JSON.stringify(rowData)}></Link>
+      </Touchable>
     )
   }
 
