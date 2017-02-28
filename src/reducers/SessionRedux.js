@@ -1,7 +1,13 @@
 import { REHYDRATE } from 'redux-persist/constants'
 
+import Api from '../common/Api'
+
 const initialState = {
-  passport: null
+  passport: null,
+  /**
+   * session has to be verified register status
+   */
+  needVerify: true
 }
 
 /** Actions */
@@ -16,6 +22,29 @@ export const SessionActions = {
     return {
       type: 'SESSION_DESTROY'
     }
+  },
+  verifySession: (email: string) => (dispatch) => {
+    Api.authStatus(email).then((response) => {
+      let registered = response.data.registered
+      let email = response.data.email
+
+      console.log({
+        email,
+        registered
+      });
+
+      dispatch({
+        type: 'SESSION_NEED_VERIFY',
+        payload: false
+      })
+
+      if (!registered) {
+        dispatch({
+          type: 'APP_SHOW_REGISTER',
+          payload: true
+        })
+      }
+    })
   }
 }
 
@@ -30,8 +59,16 @@ const sessionReducer = (state = initialState, action) => {
     return {...state, passport: null}
   }
 
+  if (action.type === 'SESSION_NEED_VERIFY') {
+    return {...state, needVerify: action.payload}
+  }
+
   if (action.type === REHYDRATE) {
-    return action.payload.session || {...state}
+    let restoredState = {
+      passport: action.payload.session.passport, 
+      needVerify: state.needVerify
+    }
+    return restoredState || {...state}
   }
 
   return state

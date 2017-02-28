@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Metrics from '../common/metrics'
+import Metrics from '../common/Metrics'
 import { merge } from 'lodash'
 
 export default class CardView extends React.PureComponent {

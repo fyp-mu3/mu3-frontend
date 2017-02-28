@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Metrics from '../common/metrics'
+import Metrics from '../common/Metrics'
 
 class NavigationTop extends React.Component {
 

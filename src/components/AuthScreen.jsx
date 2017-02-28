@@ -26,7 +26,8 @@ class AuthScreen extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.appSession.passport) {
-      this.props.dispatch(routerActions.replace('/'))
+      // this.props.dispatch(routerActions.replace('/home'))
+      window.location.href = 'http://localhost:8888/home'
     }
   }
 

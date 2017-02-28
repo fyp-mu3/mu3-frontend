@@ -2,7 +2,7 @@ import React from 'react'
 
 import CardView from './CardView'
 
-import type { CodeChallenge } from '../models/CodeChallenge'
+import type { CodeChallenge } from '../models/Types'
 
 type State = {
   started: boolean,

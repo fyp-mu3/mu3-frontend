@@ -16,3 +16,10 @@ export type CodeChallenge = {
 
   skills: number
 }
+
+export type User = {
+  username: string,
+  level: string,
+  firstName: string,
+  emailAddress: string
+}

@@ -7,9 +7,13 @@ import { SessionActions } from '../reducers/SessionRedux'
 import NavigationLeft from './NavigationLeft'
 import NavigationTop from './NavigationTop'
 
-import Metrics from '../common/metrics'
+import Metrics from '../common/Metrics'
 
 import { Thunk } from '../reducers/CodeChallengesRedux'
+
+import Api from '../common/Api'
+
+import Loading from 'halogen/PulseLoader'
 
 class App extends React.Component {
   constructor (props) {
@@ -23,7 +27,16 @@ class App extends React.Component {
   componentWillReceiveProps (nextProps) {
     if (!nextProps.session.passport) {
       this.props.goAuth()
+    } else {
+      if (nextProps.session.needVerify) {
+        let emailAddress = nextProps.session.passport.user.extractedUser.emailAddress
+        this._checkRegistered(emailAddress)
+      }
     }
+  }
+
+  _checkRegistered (emailAddress: string) {
+    this.props.dispatch(SessionActions.verifySession(emailAddress))
   }
 
   _renderSessionInfo () {
@@ -40,6 +53,18 @@ class App extends React.Component {
         {this.props.children}
       </div>
     )
+  }
+
+  _renderLoadingSpinner () {
+    return (
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100wh'}}>
+        <Loading color="#26A65B" size="16px" margin="4px"/>
+      </div>
+    )
+  }
+
+  _renderRegisterScreen () {
+    
   }
 
   render () {
@@ -86,6 +111,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    app: state.app,
     session: state.session
   }
 }

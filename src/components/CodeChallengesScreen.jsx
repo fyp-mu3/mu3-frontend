@@ -7,11 +7,11 @@ import CardView from './CardView'
 import ListView from './ListView'
 import Touchable from './Touchable'
 
-import Metrics from '../common/metrics'
+import Metrics from '../common/Metrics'
 
 import { Link } from 'react-router'
 
-import type { CodeChallenge } from '../models/CodeChallenge'
+import type { CodeChallenge } from '../models/Types'
 
 class CodeChallengesScreen extends React.PureComponent {
   _renderDescription () {

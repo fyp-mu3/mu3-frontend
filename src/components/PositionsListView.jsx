@@ -5,7 +5,7 @@ import React from 'react'
 import CardView from './CardView'
 import ListView from './ListView'
 
-import Metrics from '../common/metrics'
+import Metrics from '../common/Metrics'
 import _ from 'lodash'
 
 /** ViewModel */

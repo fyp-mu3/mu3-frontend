@@ -1,6 +1,6 @@
 // @flow
 
-import type { CodeChallenge } from '../models/CodeChallenge'
+import type { CodeChallenge } from '../models/Types'
 
 type State = {
   items: [CodeChallenge],
