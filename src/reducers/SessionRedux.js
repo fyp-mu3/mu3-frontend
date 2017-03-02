@@ -43,6 +43,11 @@ export const SessionActions = {
           type: 'APP_SHOW_REGISTER',
           payload: true
         })
+      } else {
+        dispatch({
+          type: 'APP_SHOW_REGISTER',
+          payload: false
+        })
       }
     })
   }
@@ -64,6 +69,9 @@ const sessionReducer = (state = initialState, action) => {
   }
 
   if (action.type === REHYDRATE) {
+    /** skip rehydrate if sesion doest not exists  */
+    if (!action.payload.session) { return state }
+
     let restoredState = {
       passport: action.payload.session.passport, 
       needVerify: state.needVerify

@@ -12,6 +12,7 @@ type Response = {
 }
 
 class Api {
+  /** Auth */
   static authStatus (email: string): Promise<Response> {
     let encoded = encodeURIComponent(email)
     return new Promise((resolver, reject) => {
@@ -25,6 +26,30 @@ class Api {
         })
         .catch(err => reject(err))
       }).catch(err => reject(err))
+    })
+  }
+
+  /** User */
+  static userUpdate (data = {
+    username: null,
+    firstName: null,
+    lastName: null,
+    emailAddress: null
+  }): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      let option = {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'application/json'
+        }
+      }
+
+      fetch(HOST_URL + 'users/update', option).then((response) => {
+        // resolve(json)
+        response.json().then(json => resolve(json))
+      })
+      .catch(err => reject(err))
     })
   }
 }

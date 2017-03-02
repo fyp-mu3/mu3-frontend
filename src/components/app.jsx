@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
@@ -6,6 +8,7 @@ import { SessionActions } from '../reducers/SessionRedux'
 
 import NavigationLeft from './NavigationLeft'
 import NavigationTop from './NavigationTop'
+import RegisterScreen from './RegisterScreen'
 
 import Metrics from '../common/Metrics'
 
@@ -64,10 +67,14 @@ class App extends React.Component {
   }
 
   _renderRegisterScreen () {
-    
+    return <RegisterScreen />
   }
 
   render () {
+    if (this.props.app.showRegisterScreen) {
+      return this._renderRegisterScreen()
+    }
+
     return (
       /* render main wrapper, behave like a ScrollView */
       <div style={{

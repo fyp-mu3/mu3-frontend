@@ -9,6 +9,12 @@ export const AppActions = {
       type: 'APP_SHOW_REGISTER',
       payload: display
     }
+  },
+  updateUser: (user: any) => {
+    return {
+      type: 'APP_UPDATE_USER',
+      payload: user
+    }
   }
 }
 
@@ -16,6 +22,10 @@ export const AppActions = {
 const appReducer = (state = initialState, action) => {
   if (action.type === 'APP_SHOW_REGISTER') {
     return {...state, showRegisterScreen: action.payload}
+  }
+
+  if (action.type === 'APP_UPDATE_USER') {
+    return {...state, user: action.payload}
   }
 
   return state
