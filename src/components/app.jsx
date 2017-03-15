@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { routerActions } from 'react-router-redux'
 import { SessionActions } from '../reducers/SessionRedux'
+import { AppActions } from '../reducers/AppRedux'
 
 import NavigationLeft from './NavigationLeft'
 import NavigationTop from './NavigationTop'
@@ -34,6 +35,10 @@ class App extends React.Component {
       if (nextProps.session.needVerify) {
         let emailAddress = nextProps.session.passport.user.extractedUser.emailAddress
         this._checkRegistered(emailAddress)
+      }
+
+      if (nextProps.session.passport.user && nextProps.session.passport.user.extractedUser.emailAddress && !this.props.app.user) {
+        this.props.dispatch(AppActions.updateUser(nextProps.session.passport.user.extractedUser.emailAddress))
       }
     }
   }

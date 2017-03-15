@@ -52,6 +52,16 @@ class Api {
       .catch(err => reject(err))
     })
   }
+
+  static usersGetByEmail (emailAddress: string = ''): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      fetch(HOST_URL + `users/get?emailAddress=${emailAddress}`)
+      .then((response) => {
+        response.json().then(json => resolve(json) )
+      })
+      .catch(err => reject(err))
+    })
+  }
 }
 
 export default Api

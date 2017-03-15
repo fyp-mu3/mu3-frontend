@@ -36,7 +36,7 @@ class RegisterScreen extends React.Component {
     })
     .then(user => {
       console.log(user)
-      this.props.dispatch(AppActions.updateUser(user))
+      this.props.dispatch(AppActions.updateUser(user.emailAddress))
       setTimeout(() => {
         this.props.dispatch(SessionActions.verifySession(user.emailAddress))
       }, 2000)

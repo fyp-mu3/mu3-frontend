@@ -1,3 +1,7 @@
+// @flow
+
+import Api from '../common/Api'
+
 const initialState = {
   showRegisterScreen: false,
   user: null
@@ -10,11 +14,16 @@ export const AppActions = {
       payload: display
     }
   },
-  updateUser: (user: any) => {
-    return {
-      type: 'APP_UPDATE_USER',
-      payload: user
-    }
+  updateUser: (email: string) => (dispatch) => {
+    if (!email) { return }
+    console.log(email)
+
+    Api.usersGetByEmail(email)
+    .then(userObj => {dispatch({
+        type: 'APP_UPDATE_USER',
+        payload: userObj
+      }); console.log(userObj)}
+    )
   }
 }
 
