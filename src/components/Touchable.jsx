@@ -27,7 +27,7 @@ export default class Touchable extends React.PureComponent {
     let highlight = <div style={{position: 'absolute', background: '#f5f5f5', top: 0, left: 0, right: 0, bottom: 0}} />
 
     return (
-      <div style={_style} onMouseEnter={this._onMouseEnter.bind(this)} onMouseLeave={this._onMouseLeave.bind(this)}>
+      <div style={_style} onMouseEnter={this._onMouseEnter.bind(this)} onMouseLeave={this._onMouseLeave.bind(this)} onMouseUp={this.props.onPress}>
         {this.props.children}
       </div>
     )

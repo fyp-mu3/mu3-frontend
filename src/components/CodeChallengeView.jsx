@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { connect } from 'react-redux'
 
 import CardView from './CardView'
 import CodeHelper from '../common/CodeHelper'
@@ -26,10 +27,15 @@ class CodeChallengeView extends React.Component {
 
     this.state = {
       started: false,
-      challenge: null,
       loadingSubmission: false,
       codeResult: null
     }
+  }
+
+  _renderChallengeHeader () {
+    return (
+      <h1>{this.props.challenge.title}</h1>
+    )
   }
 
   _renderChallengeStats () {
@@ -42,7 +48,9 @@ class CodeChallengeView extends React.Component {
 
   _renderChallengeDetail () {
     return (
-      <CardView>
+      <CardView
+        renderHeader={this._renderChallengeHeader.bind(this)}>
+        <div className='content'><blockquote>{this.props.challenge.content}</blockquote></div>
         <button className='button is-primary' onClick={() => this.setState({started: true})}>Start</button>
       </CardView>
     )
@@ -57,6 +65,12 @@ class CodeChallengeView extends React.Component {
     )
   }
 
+  _renderCodeResultPanelHeader () {
+    return (
+      <h3>Result</h3>
+    )
+  }
+
   _renderCodeResultPanel () {
     if (this.state.loadingSubmission) {
       return (
@@ -67,15 +81,23 @@ class CodeChallengeView extends React.Component {
     }
 
     if (this.state.codeResult) {
+      console.info(this.state.codeResult);
       return (
-        <div>
-          {JSON.stringify(this.state.codeResult)}
-        </div>
+        <CardView
+          style={{marginTop: 16}}
+          renderHeader={this._renderCodeResultPanelHeader.bind(this)}
+        >
+          <div style={{'white-space': 'pre-wrap'}}>
+            {this.state.codeResult.stdout[0]}
+          </div>
+        </CardView>
       )
     }
   }
 
   render () {
+    if (!this.props.challenge) { return <div /> }
+
     if (!this.state.started) { return this._renderReady() }
 
     return (
@@ -127,4 +149,10 @@ class CodeChallengeView extends React.Component {
   }
 }
 
-export default CodeChallengeView
+const mapStateToProps = (state) => {
+  return {
+    challenge: state.codeChallenges.currentChallengeId ? state.codeChallenges.items.find(item => item.id === state.codeChallenges.currentChallengeId) : null
+  }
+}
+
+export default connect(mapStateToProps, null)(CodeChallengeView)

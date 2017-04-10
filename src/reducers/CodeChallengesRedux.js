@@ -11,7 +11,8 @@ type State = {
 const initialState: State = {
   items: [],
   offset: 0,
-  fetching: false
+  fetching: false,
+  currentChallengeId: null
 }
 
 /** Actions */
@@ -25,6 +26,12 @@ export const CodeChallengeActions = {
     return {
       type: 'CODECHALLENGES_SUCCESS',
       payload: data
+    }
+  },
+  loadChallenge: (id: string) => {
+    return {
+      type: 'CODECHALLENGES_LOAD',
+      payload: id
     }
   }
 }
@@ -53,7 +60,9 @@ const codeChallengeReducer = (state: State = initialState, action) => {
     return {...state, fetching: false, items: newItems}
   }
 
-  /** side effect */
+  if (action.type === 'CODECHALLENGES_LOAD') {
+    return {...state, currentChallengeId: action.payload}
+  }
 
   return state
 }
@@ -62,8 +71,13 @@ export default codeChallengeReducer
 
 /** CodeChallenges side effects */
 const _fetchCodeChallenges = (offset: number) => {
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(() => {resolve(dummyData)}, 1500)
+  // })
   return new Promise((resolve, reject) => {
-    setTimeout(() => {resolve(dummyData)}, 1500)
+    fetch('http://localhost:3000/challenges').then(response => {
+      response.json().then(json => resolve(json))
+    })
   })
 }
 

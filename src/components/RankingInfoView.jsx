@@ -6,6 +6,9 @@ import Metrics from '../common/Metrics'
 import CardView from './CardView'
 import ListView from './ListView'
 import Touchable from './Touchable'
+import CodeChallengeListItemView from './CodeChallengeListItemView'
+
+import { CodeChallengeActions } from '../reducers/CodeChallengesRedux'
 
 class RankingInfoView extends React.PureComponent {
 
@@ -36,9 +39,7 @@ class RankingInfoView extends React.PureComponent {
 
   _renderRow (rowData, rowID, sectionID) {
     return (
-      <Touchable key={`latest-challenges-${rowID}`}>
-        <div>{JSON.stringify(rowData)}</div>
-      </Touchable>
+      <CodeChallengeListItemView key={`latest-challenges-${rowID}`} item={rowData} loadItemAction={this.props.loadCodeChallenge} />
     )
   }
   /** end ListView delegate */
@@ -70,4 +71,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(RankingInfoView)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCodeChallenge: (id: string) => dispatch(CodeChallengeActions.loadChallenge(id))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RankingInfoView)

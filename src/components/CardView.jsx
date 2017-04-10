@@ -17,6 +17,13 @@ export default class CardView extends React.PureComponent {
           {this._renderSeperator()}
         </div>
       )
+    } else if (this.props.title) {
+      return (
+        <div>
+          <h1>{this.props.title}</h1>
+          {this._renderSeperator()}
+        </div>
+      )
     } else {
       return <div />
     }

@@ -6,12 +6,15 @@ import { connect } from 'react-redux'
 import CardView from './CardView'
 import ListView from './ListView'
 import Touchable from './Touchable'
+import CodeChallengeListItemView from './CodeChallengeListItemView'
 
 import Metrics from '../common/Metrics'
 
 import { Link } from 'react-router'
 
 import type { CodeChallenge } from '../models/Types'
+
+import { CodeChallengeActions } from '../reducers/CodeChallengesRedux'
 
 class CodeChallengesScreen extends React.PureComponent {
   _renderDescription () {
@@ -41,10 +44,13 @@ class CodeChallengesScreen extends React.PureComponent {
   }
 
   _renderRow (rowData: CodeChallenge, rowID, sectionID) {
+    /*<Touchable key={`codeChallenges-${rowID}`}>
+      <Link to={`/codeChallenges/${rowData.id}`} onMouseUp={() => this.props.loadCodeChallenge(rowData.id)}>
+        {JSON.stringify(rowData)}>
+      </Link>
+    </Touchable>*/
     return (
-      <Touchable key={`codeChallenges-${rowID}`}>
-        <Link to={`/codeChallenges/${rowData.id}`}>{JSON.stringify(rowData)}></Link>
-      </Touchable>
+      <CodeChallengeListItemView item={rowData} loadItemAction={this.props.loadCodeChallenge} />
     )
   }
 
@@ -76,4 +82,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(CodeChallengesScreen)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCodeChallenge: (id: string) => dispatch(CodeChallengeActions.loadChallenge(id))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CodeChallengesScreen)

@@ -89,9 +89,14 @@ class NavigationLeft extends React.Component {
         iconUri: 'fa fa-code'
       },
       {
-        key: 'Notfound',
-        title: 'Notfound',
-        url: '/notfound'
+        key: 'hr',
+        title: 'Companies',
+        url: '/hr'
+      },
+      {
+        key: 'Logout',
+        title: 'Logout',
+        url: '/logout'
       }
     ]
   }

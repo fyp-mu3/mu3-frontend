@@ -11,7 +11,13 @@ type Response = {
   data: any
 }
 
+let _store = null
+
 class Api {
+  static subscribeStore(store) {
+    _store = store
+  }
+
   /** Auth */
   static authStatus (email: string): Promise<Response> {
     let encoded = encodeURIComponent(email)
@@ -61,6 +67,29 @@ class Api {
       })
       .catch(err => reject(err))
     })
+  }
+
+  /* Jobs */
+  static companiesAdmin (): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      Api.authFetch(HOST_URL + 'jobs/companies/me', null).then((response) => {
+        response.json().then(json => resolve(json))
+      })
+      .catch(err => reject(err))
+    })
+  }
+
+  /** Commons */
+  static authFetch(url, options, extras) {
+    let _user = _store.getState().app.user
+    if (!_user) { 
+      console.error('unauthed api fetch')
+      return fetch()
+    }
+    let encodedEmail = encodeURIComponent(_user.emailAddress)
+    let _extras = extras ? extras : ''
+    
+    return fetch(url + `?emailAddress=${encodedEmail}` + _extras, options)
   }
 }
 

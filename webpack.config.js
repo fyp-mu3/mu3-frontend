@@ -18,6 +18,7 @@ loaders.push({
 module.exports = {
 	entry: [
 		// 'react-hot-loader/patch',
+		'babel-polyfill',
 		'./src/index.jsx', // your app's entry point
 		'./styles/index.scss'
 	],

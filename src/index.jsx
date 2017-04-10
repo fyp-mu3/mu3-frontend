@@ -19,6 +19,15 @@ import { AppContainer } from 'react-hot-loader'
 
 import reducers from './reducers'
 
+import Api from './common/Api'
+
+import mySaga from './sagas/sagas'
+import createSagaMiddleware from 'redux-saga'
+
+
+/** sagas **/
+const sagaMiddleware = createSagaMiddleware()
+
 /** Reducers */
 const reducer = combineReducers({
   ...reducers,
@@ -35,7 +44,7 @@ const composeEnhancers =
     }) : compose
 
 const enhancer = composeEnhancers(
-  applyMiddleware(routerMiddleware(browserHistory), thunk),
+  applyMiddleware(routerMiddleware(browserHistory), thunk, sagaMiddleware),
   autoRehydrate()
 )
 
@@ -44,6 +53,10 @@ const store = createStore(
   /* preloadStates, */
   enhancer
 )
+
+Api.subscribeStore(store)
+
+sagaMiddleware.run(mySaga)
 
 const history = syncHistoryWithStore(browserHistory, store)
 

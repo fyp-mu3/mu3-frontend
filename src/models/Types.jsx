@@ -1,4 +1,8 @@
 // @flow
+export type Action = {
+  type: string,
+  payload: any
+}
 
 export type CodeChallenge = {
   id: string,
@@ -14,12 +18,34 @@ export type CodeChallenge = {
 
   languages: [string],
 
-  skills: number
+  skills: number,
+
+  content: string,
+
+  output: string
 }
 
 export type User = {
   username: string,
   level: string,
   firstName: string,
+  lastName: string,
   emailAddress: string
+}
+
+export type Company = {
+  id: string,
+  name: string,
+  industry: [string],
+  admin: [string]
+}
+
+export type Job = {
+  id: string,
+  title: string,
+  company: Company,
+  description: string,
+  salary: string,
+  rankRequired: string,
+  applied: boolean
 }

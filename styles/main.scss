@@ -12,13 +12,26 @@ body {
 	height: 100vh;
 }
 
+h1 {
+	font-size: 20px;
+}
+
 #appContainer {
 	display: flex;
 	flex-direction: 'row';
 }
 
+.spacer {
+	flex-grow: 1;
+}
+
 .flex {
 	display: flex;
+}
+
+.flexCol {
+	display: flex;
+	flex-direction: column;
 }
 
 .flexCenterVertical {
@@ -45,4 +58,10 @@ body {
 
 .flexApplySpaceMargin > div:last-child, .flexApplySpaceMargin > span:last-child {
 	margin-right: 0px;
+}
+
+.rankText {
+	position: 'relative';
+	font-size: 16px;
+	font-weight: 'bold';
 }
