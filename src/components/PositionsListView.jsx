@@ -78,8 +78,8 @@ class PositionListView extends React.Component<Props, State> {
           justifyContent: 'center'
         }}>
         <div className='flex'
-          style={{width: 80, height: 80, backgroundColor: '#ddd', alignItems: 'center', justifyContent: 'center'}}>
-          <span>media</span>
+          style={{width: 80, height: 80, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center'}}>
+          <figure className='image is-64x64'><img src={`${rowData.company ? rowData.company.image : null}`} /></figure>
         </div>
         <div>{rowData.title}</div>
         <div className='spacer'></div>
@@ -87,9 +87,9 @@ class PositionListView extends React.Component<Props, State> {
           <button 
             data-row={JSON.stringify(rowData)}
             style={{marginRight: 16}}
-            className={rowData.applied ? 'button is-danger' : 'button is-primary'}
+            className={rowData.applied ? 'button is-info' : 'button is-primary'}
             type='button'
-            onClick={this._onApplyJobButtonClick.bind(this)}>{rowData.applied ? 'Cancel' : 'Apply'}</button>
+            onClick={this._onApplyJobButtonClick.bind(this)}>{rowData.applied ? 'View' : 'Apply'}</button>
         </div>
       </div>
     )

@@ -14,6 +14,9 @@ import AceEditor from 'react-ace'
 import 'brace/mode/ruby'
 import 'brace/theme/solarized_dark'
 
+import ReactDOM from 'react-dom'
+import ReactMarkDown from 'react-markdown'
+
 type State = {
   started: boolean,
   challenge: CodeChallenge
@@ -41,7 +44,7 @@ class CodeChallengeView extends React.Component {
   _renderChallengeStats () {
     return (
       <CardView>
-        <div>問題集計</div>
+        <div>Challenge Statistics</div>
       </CardView>
     )
   }
@@ -50,8 +53,8 @@ class CodeChallengeView extends React.Component {
     return (
       <CardView
         renderHeader={this._renderChallengeHeader.bind(this)}>
-        <div className='content'><blockquote>{this.props.challenge.content}</blockquote></div>
-        <button className='button is-primary' onClick={() => this.setState({started: true})}>Start</button>
+        <div className='content'><ReactMarkDown source={this.props.challenge.content} /></div>
+        { !this.state.started && <button className='button is-primary' onClick={() => this.setState({started: true})}>Start</button> }
       </CardView>
     )
   }
@@ -106,6 +109,7 @@ class CodeChallengeView extends React.Component {
         flexDirection: 'column',
         alignItems: 'stretch'
       }}>
+        { this._renderChallengeDetail() }
         <AceEditor
           ref='editor'
           mode='ruby'

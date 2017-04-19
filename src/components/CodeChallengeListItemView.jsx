@@ -38,7 +38,7 @@ export default class CodeChallegeListItemView extends React.Component<PropsType,
       <CardView
         renderHeader={this._renderHeader}
       >
-        <div className='content'>{_item.content ? _item.content.substring(0, 100) + ' ...' : ''}</div>
+        <div className='content'>{_item.description ? _item.description : _item.content}</div>
         <div className='flex' style={{alignItems: 'center'}}>
           <div className='rankText'>{_item.rank}</div>
           <div className='spacer' />

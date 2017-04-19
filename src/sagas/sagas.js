@@ -4,7 +4,8 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import Api from '../common/Api'
 
 import { CompanyActions } from '../reducers/CompanyRedux'
-import { JobActions } from '../reducers/JobsRedux'
+import { JobsActions, Thunk as JobsThunk } from '../reducers/JobsRedux'
+import { CodeChallengeActions } from '../reducers/CodeChallengesRedux'
 
 import { routerActions } from 'react-router-redux'
 
@@ -14,6 +15,8 @@ function* userDidUpdate (action) {
   /** fetch companies */
   const companies = yield fetchCompanies()
   yield put(CompanyActions.fetchSuccess(companies))
+  yield put(JobsActions.fetch())
+  yield put(CodeChallengeActions.fetch())
 }
 
 function* fetchCompanies () {
@@ -34,13 +37,55 @@ function* adminViewJob (action) {
   return null
 }
 
+function* adminCreateJob (action) {
+  if (action.payload) {
+    yield call(Api.jobCreate, action.payload)
+  }
+
+  yield put(JobsActions.fetch())
+}
+
+function* fetchJob (action) {
+  const response = yield call(Api.fetchJob)
+  yield put(JobsActions.success(response))
+}
+
+function* fetchChallenges (action) {
+  const response = yield call(Api.fetchChallenges)
+
+  yield put(CodeChallengeActions.success(response))
+}
+
+function* startChallenge (action) {
+  let challengeId = action.payload
+
+  // check if challeng is taken before
+  const response = yield call(Api.startChallegne, challengeId)
+  if (response.status === 1) {
+    
+  } else if (response.status === -2) {
+
+  } else {
+
+  }
+
+  console.info(response);
+}
+
 function* mySaga () {
   /** AppState */
   yield takeLatest('APP_UPDATE_USER', userDidUpdate)
 
   /** Jobs */
   yield takeLatest('COMPANY_ADMIN_VIEW_REQUEST', adminViewCompany)
+  yield takeLatest('COMPANY_FETCH_REQUEST', fetchCompanies)
+
   yield takeLatest('JOBS_ADMIN_VIEW_REQUEST', adminViewJob)
+  yield takeLatest('JOBS_ADMIN_CREATE_JOB', adminCreateJob)
+  yield takeLatest('JOBS_FETCH', fetchJob)
+
+  yield takeLatest('CODECHALLENGES_FETCH', fetchChallenges)
+  yield takeLatest('CODECHALLENGES_START', startChallenge)
 }
 
 export default mySaga

@@ -11,6 +11,10 @@ class CodeHelper {
   }
 
   run (params) {
+    const _headers = new Headers()
+    _headers.append('Access-Control-Allow-Origin', '*')
+    _headers.append('Access-Control-Allow-Methods', 'POST')
+    _headers.append('Access-Control-Allow-Headers', 'Content-Type')
     return new Promise((resolve, reject) => {
       let option = {
         uri: API_ENDPOINT,

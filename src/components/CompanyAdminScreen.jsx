@@ -28,7 +28,9 @@ class CompanyAdminScreen extends React.Component {
     super(props)
 
     this.state = {
-      showCreateJobPanel: false      
+      showCreateJobPanel: false,
+      inputRank: 's',
+      showSuccessCreateNotification: false
     }
   }
 
@@ -48,6 +50,15 @@ class CompanyAdminScreen extends React.Component {
     } else {
       return null
     }
+  }
+
+  _renderSuccessCreateNotification () {
+    return (
+      <div className="notification is-primary">
+        <button className="delete" onClick={() => this.setState({showSuccessCreateNotification: false})}></button>
+        New job successfully posted.
+      </div>
+    )
   }
 
   _renderJobRow (data: Job, rowID, sectionID) {
@@ -96,14 +107,37 @@ class CompanyAdminScreen extends React.Component {
         </div>
 
         <div className='field'>
-          <label className='label'>Name</label>
-          <p className='control'>
-            <input className='input' type='text' value={this.state.inputName} onChange={this._handleInputChange.bind(this)} name='inputName'/>
+          <label className='label'>Salary</label>
+          <p className='control has-icon'>
+            <input className='input' type='text' value={this.state.inputSalary} onChange={this._handleInputChange.bind(this)} name='inputSalary'/>
+            <span className='icon is-small'><i className='fa fa-usd' /></span>
           </p>
+        </div>
+
+        <div className='field'>
           <label className='label'>Description</label>
           <p className='control'>
             <textarea className='textarea' type='text' value={this.state.inputDescription} onChange={this._handleInputChange.bind(this)} name='inputDescription' />
           </p>
+        </div>
+
+        <div className='field'>
+          <label className="label">Rank required</label>
+          <p className='control'>
+            <span className='select'>
+              <select onChange={this._handleInputChange.bind(this)} value={this.state.inputRank} name='inputRank'>
+                <option value='s'>S</option>
+                <option value='a'>A</option>
+                <option value='b'>B</option>
+                <option value='c'>C</option>
+              </select>
+            </span>
+          </p>
+        </div>
+
+        <div className='flex'>
+          <div className='spacer' />
+          <button className='button is-primary' onClick={this._handleCreateJob.bind(this)}>Create</button>
         </div>
       </CardView>
     )
@@ -111,6 +145,26 @@ class CompanyAdminScreen extends React.Component {
 
   _handleInputChange (event) {
     this.setState({[event.target.name]: event.target.value})
+  }
+
+  _handleCreateJob () {
+    let job = {
+      title: this.state.inputName,
+      salary: this.state.inputSalary,
+      description: this.state.inputDescription,
+      rankRequired: this.state.inputRank,
+      company: this.props.adminViewCompanyId
+    }
+
+    console.info(job);
+
+    setTimeout(() => {
+      this.props.adminCreateJob(job)
+      this.setState({
+        showSuccessCreateNotification: true,
+        showCreateJobPanel: false
+      })
+    }, 1500)
   }
 
   render () {
@@ -125,6 +179,7 @@ class CompanyAdminScreen extends React.Component {
           <h1>{_company.name}</h1>
         </CardView>
         {this._renderPostedJobs()}
+        {this.state.showSuccessCreateNotification && this._renderSuccessCreateNotification()}
         {this.state.showCreateJobPanel && this._renderCreateJobPanel()}
       </div>
     )
@@ -142,7 +197,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     back: () => { dispatch(routerActions.replace('/hr')) },
-    adminViewJob: (id) => { dispatch(JobsActions.adminViewJob(id)) }
+    adminViewJob: (id) => { dispatch(JobsActions.adminViewJob(id)) },
+    adminCreateJob: (job) => { dispatch(JobsActions.adminCreateJob(job)) }
   }
 }
 

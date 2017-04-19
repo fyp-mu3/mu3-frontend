@@ -41,6 +41,12 @@ export const JobsActions = {
       type: 'JOBS_ADMIN_VIEW_REQUEST',
       payload: id
     }
+  },
+  adminCreateJob: (job) => {
+    return {
+      type: 'JOBS_ADMIN_CREATE_JOB',
+      payload: job
+    }
   }
 }
 

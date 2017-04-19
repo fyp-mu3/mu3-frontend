@@ -10,6 +10,8 @@ import CodeChallengeListItemView from './CodeChallengeListItemView'
 
 import { CodeChallengeActions } from '../reducers/CodeChallengesRedux'
 
+import { nth } from 'lodash/nth'
+
 class RankingInfoView extends React.PureComponent {
 
   _getUser () {
@@ -25,7 +27,7 @@ class RankingInfoView extends React.PureComponent {
   }
 
   _renderLeftHeader () {
-    return <div>mu-3 ランク</div>
+    return <h1>Your Rank</h1>
   }
 
   _renderRightHeader () {
@@ -34,7 +36,11 @@ class RankingInfoView extends React.PureComponent {
 
   /** ListView delegate: Latest Challenges */
   _prepareDataSource () {
-    return this.props.codeChallenges.items
+    if (this.props.codeChallenges.items.length > 0) {
+      return [this.props.codeChallenges.items[0]]
+    } else {
+      return []
+    }
   }
 
   _renderRow (rowData, rowID, sectionID) {
@@ -52,7 +58,7 @@ class RankingInfoView extends React.PureComponent {
     return (
       <div className='flex flexApplySpaceMargin'>
         <CardView style={{flex: 1}} renderHeader={this._renderLeftHeader.bind(this)}>
-          <div>{_user.profile.displayName}さんのmu-3ランク</div>
+          <div>{_user.profile.displayName}'s ranking in code challenges - A</div>
         </CardView>
         <CardView style={{flex: 1}} renderHeader={this._renderRightHeader.bind(this)}>
           <ListView

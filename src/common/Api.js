@@ -79,6 +79,40 @@ class Api {
     })
   }
 
+  static fetchJob (): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      Api.authFetch(HOST_URL + 'jobs/', null).then((response) => {
+        response.json().then(json => resolve(json))
+      })
+    })
+  }
+
+  static jobCreate (job): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      Api.authFetch(HOST_URL + 'jobs/create', {body: job}).then((response) => {
+        response.json().then(json => resolve(json))
+      })
+    })
+  }
+
+  /** Challenges */
+  static fetchChallenges (): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      Api.authFetch(HOST_URL + 'challenges/').then(response => {
+        response.json().then(json => resolve(json))
+      })
+    })
+  }
+
+  static startChallegne (challenge_id): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      Api.authFetch(HOST_URL + 'challenges/startChallenge', null, `&challenge_id=${challenge_id}`)
+      .then(response => {
+        response.json().then(json => resolve(json))
+      })
+    })
+  }
+
   /** Commons */
   static authFetch(url, options, extras) {
     let _user = _store.getState().app.user
@@ -88,6 +122,10 @@ class Api {
     }
     let encodedEmail = encodeURIComponent(_user.emailAddress)
     let _extras = extras ? extras : ''
+
+    if (options && options.body) {
+      _extras += '&json=' + encodeURIComponent(JSON.stringify(options.body))
+    }
     
     return fetch(url + `?emailAddress=${encodedEmail}` + _extras, options)
   }

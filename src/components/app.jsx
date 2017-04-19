@@ -13,8 +13,8 @@ import RegisterScreen from './RegisterScreen'
 
 import Metrics from '../common/Metrics'
 
-import { Thunk as CodeChallengesThunk } from '../reducers/CodeChallengesRedux'
 import { Thunk as JobsThunk } from '../reducers/JobsRedux'
+import { CodeChallengeActions } from '../reducers/CodeChallengesRedux'
 
 import Api from '../common/Api'
 
@@ -26,7 +26,7 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchCodeChallenges(0)
+    
   }
 
   componentWillReceiveProps (nextProps) {
@@ -45,9 +45,6 @@ class App extends React.Component {
   }
 
   componentDidUpdate () {
-    if (this.props.app.user) {
-      this.props.fetchJobs(0, this.props.app.user.emailAddress)
-    }
   }
 
   _checkRegistered (emailAddress: string) {
@@ -121,13 +118,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatch: (action) => { dispatch(action) },
     goAuth: () => dispatch(routerActions.replace('/login')),
-    logout: () => dispatch(SessionActions.destroySession()),
-    fetchCodeChallenges: (offset: number) => {
-      dispatch(CodeChallengesThunk.fetch(offset))
-    },
-    fetchJobs: (offset: number, emailAddress: string) => {
-      dispatch(JobsThunk.fetch(offset, emailAddress))
-    }
+    logout: () => dispatch(SessionActions.destroySession())
   }
 }
 

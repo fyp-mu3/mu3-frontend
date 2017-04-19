@@ -56,8 +56,8 @@ const codeChallengeReducer = (state: State = initialState, action) => {
   }
 
   if (action.type === 'CODECHALLENGES_SUCCESS') {
-    let newItems = state.items.concat(action.payload)
-    return {...state, fetching: false, items: newItems}
+    // let newItems = state.items.concat(action.payload)
+    return {...state, fetching: false, items: action.payload}
   }
 
   if (action.type === 'CODECHALLENGES_LOAD') {

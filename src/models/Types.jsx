@@ -36,6 +36,7 @@ export type User = {
 export type Company = {
   id: string,
   name: string,
+  image: string,
   industry: [string],
   admin: [string]
 }
