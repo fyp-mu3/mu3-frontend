@@ -6,6 +6,7 @@ import Api from '../common/Api'
 import { CompanyActions } from '../reducers/CompanyRedux'
 import { JobsActions, Thunk as JobsThunk } from '../reducers/JobsRedux'
 import { CodeChallengeActions } from '../reducers/CodeChallengesRedux'
+import { SessionActions } from '../reducers/SessionRedux'
 
 import { routerActions } from 'react-router-redux'
 
@@ -57,19 +58,20 @@ function* fetchChallenges (action) {
 }
 
 function* startChallenge (action) {
-  let challengeId = action.payload
+  let { challenge_Id, result } = action.payload
 
   // check if challeng is taken before
-  const response = yield call(Api.startChallegne, challengeId)
-  if (response.status === 1) {
-    
-  } else if (response.status === -2) {
+  yield call(Api.startChallegne, challenge_Id, result)
 
-  } else {
+  yield call(Api.fetchChallenges)
 
+  if (result) {
+    // update candidate rank
   }
+}
 
-  console.info(response);
+function* sessionDestroy (action) {
+  yield put(routerActions.replace('/login'))
 }
 
 function* mySaga () {
@@ -86,6 +88,8 @@ function* mySaga () {
 
   yield takeLatest('CODECHALLENGES_FETCH', fetchChallenges)
   yield takeLatest('CODECHALLENGES_START', startChallenge)
+
+  yield takeLatest('SESSION_DESTROY', sessionDestroy)
 }
 
 export default mySaga

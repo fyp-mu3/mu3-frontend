@@ -104,9 +104,10 @@ class Api {
     })
   }
 
-  static startChallegne (challenge_id): Promise<Response> {
+  static startChallegne (challenge_id: string, result: boolean): Promise<Response> {
+    console.info(challenge_id, result);
     return new Promise((resolve, reject) => {
-      Api.authFetch(HOST_URL + 'challenges/startChallenge', null, `&challenge_id=${challenge_id}`)
+      Api.authFetch(HOST_URL + 'challenges/startChallenge', null, `&challenge_id=${challenge_id}&result=${result}`)
       .then(response => {
         response.json().then(json => resolve(json))
       })

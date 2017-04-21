@@ -2,18 +2,36 @@
 
 import type { Job, Action } from '../models/Types'
 
+import Fuse from 'fuse.js'
+const fuseOptions = {
+  shouldSort: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  keys: [
+    "title",
+    "company.name"
+  ]
+}
+
 type State = {
   items: [Job],
   fetching: boolean,
   viewJobId: string,
   adminViewJobId: string,
+  search: string,
+  filteredItems?: [Job]
 }
 
 const initialState: State = {
   items: [],
   fetching: false,
   viewJobId: null,
-  adminViewJobId: null
+  adminViewJobId: null,
+  search: null,
+  filteredItems: null
 }
 
 /** Actions */
@@ -47,6 +65,12 @@ export const JobsActions = {
       type: 'JOBS_ADMIN_CREATE_JOB',
       payload: job
     }
+  },
+  search: (query) => {
+    return {
+      type: 'JOBS_SEARCH',
+      payload: query
+    }
   }
 }
 
@@ -69,7 +93,7 @@ const jobsReducer = (state: State = initialState, action: Action): State => {
   }
 
   if (action.type === 'JOBS_SUCCESS') {
-    return {...state, fetching: false, items: action.payload}
+    return {...state, fetching: false, items: action.payload, fuse: new Fuse(action.payload, fuseOptions)}
   }
 
   if (action.type === 'JOBS_VIEW') {
@@ -78,6 +102,10 @@ const jobsReducer = (state: State = initialState, action: Action): State => {
 
   if (action.type === 'JOBS_ADMIN_VIEW_REQUEST') {
     return {...state, adminViewJobId: action.payload}
+  }
+
+  if (action.type === 'JOBS_SEARCH') {
+    return {...state, search: action.payload, filteredItems: state.fuse.search(action.payload)}
   }
 
   return state

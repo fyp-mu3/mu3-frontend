@@ -24,6 +24,12 @@ import Api from './common/Api'
 import mySaga from './sagas/sagas'
 import createSagaMiddleware from 'redux-saga'
 
+// import remotedev from 'remotedev-server'
+
+// remotedev({
+//   hostname: '127.0.0.1',
+//   port: 1024
+// })
 
 /** sagas **/
 const sagaMiddleware = createSagaMiddleware()
@@ -42,6 +48,12 @@ const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
       // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
     }) : compose
+// const composeEnhancers = composeWithDevTools({
+//   realtime: true,
+//   name: 'MU3',
+//   host: '127.0.0.1',
+//   port: 1024
+// })
 
 const enhancer = composeEnhancers(
   applyMiddleware(routerMiddleware(browserHistory), thunk, sagaMiddleware),

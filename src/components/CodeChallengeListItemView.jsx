@@ -29,6 +29,23 @@ export default class CodeChallegeListItemView extends React.Component<PropsType,
     )
   }
 
+  _renderActionButton = () => {
+    if (this.props.item.session && this.props.item.session.result) {
+      return (
+        <button disabled className='button is-info'>Solved</button>
+      )
+    } else {
+      return (
+        <Link 
+          to={`/codeChallenges/${this.props.item.id}`}
+          className='button is-primary'
+          onMouseUp={this._onChallengeButtonClick}>
+          Challenge
+        </Link>
+      )
+    }
+  }
+
   render () {
     let _item: CodeChallenge = this.props.item
 
@@ -42,12 +59,7 @@ export default class CodeChallegeListItemView extends React.Component<PropsType,
         <div className='flex' style={{alignItems: 'center'}}>
           <div className='rankText'>{_item.rank}</div>
           <div className='spacer' />
-          <Link 
-            to={`/codeChallenges/${_item.id}`}
-            className='button is-primary'
-            onMouseUp={this._onChallengeButtonClick}>
-            Challenge
-          </Link>
+          {this._renderActionButton()}
         </div>
       </CardView>
     )

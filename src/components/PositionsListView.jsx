@@ -38,10 +38,17 @@ class PositionListView extends React.Component<Props, State> {
     this.props.viewJobWithId(rowData.id)
   }
 
+  _handleSearchBarChange (event) {
+    if (event.target) {
+      const value = event.target.value
+      this.props.search(value)
+    }
+  }
+
   _renderSearchBar () {
     return (
       <div className='control has-addons'>
-        <input className='input' type="text" placeholder='Find a position' />
+        <input className='input' type="text" placeholder='Find a position' onChange={this._handleSearchBarChange.bind(this)} />
         <button className='button'>Search</button>
       </div>
     )
@@ -89,7 +96,13 @@ class PositionListView extends React.Component<Props, State> {
             style={{marginRight: 16}}
             className={rowData.applied ? 'button is-info' : 'button is-primary'}
             type='button'
-            onClick={this._onApplyJobButtonClick.bind(this)}>{rowData.applied ? 'View' : 'Apply'}</button>
+            disabled={rowData.applied}
+            onClick={this._onApplyJobButtonClick.bind(this)}>{rowData.applied ? 'Applied' : 'Apply'}</button>
+          { rowData.applied &&
+            <button
+              style={{marginRight: 8}}
+              className='button'>View Application</button>
+          }
         </div>
       </div>
     )
@@ -100,6 +113,10 @@ class PositionListView extends React.Component<Props, State> {
   }
 
   _prepareDataSource = (): [Job] => {
+    if (this.props.jobs.filteredItems && this.props.jobs.filteredItems.length > 0) {
+      return this.props.jobs.filteredItems
+    }
+    
     return this.props.jobs.items
   }
 
@@ -130,6 +147,9 @@ const mapDispatchToProps = (dispatch) => {
     viewJobWithId: (id) => {
       dispatch(JobsActions.view(id))
       dispatch(routerActions.push(`/jobs/${id}`))
+    },
+    search: (query) => {
+      dispatch(JobsActions.search(query))
     }
   }
 }

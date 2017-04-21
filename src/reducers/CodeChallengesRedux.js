@@ -12,7 +12,8 @@ const initialState: State = {
   items: [],
   offset: 0,
   fetching: false,
-  currentChallengeId: null
+  currentChallengeId: null,
+  alert: null
 }
 
 /** Actions */
@@ -32,6 +33,18 @@ export const CodeChallengeActions = {
     return {
       type: 'CODECHALLENGES_LOAD',
       payload: id
+    }
+  },
+  showAlert: (alert) => {
+    return {
+      type: 'CODECHALLENGES_SHOW_ALERT',
+      payload: alert
+    }
+  },
+  start: (challenge_Id, result) => {
+    return {
+      type: 'CODECHALLENGES_START',
+      payload: {challenge_Id, result}
     }
   }
 }
@@ -62,6 +75,10 @@ const codeChallengeReducer = (state: State = initialState, action) => {
 
   if (action.type === 'CODECHALLENGES_LOAD') {
     return {...state, currentChallengeId: action.payload}
+  }
+
+  if (action.type === 'CODECHALLENGES_SHOW_ALERT') {
+    return {...state, alert: action.payload}
   }
 
   return state

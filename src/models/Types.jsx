@@ -22,7 +22,9 @@ export type CodeChallenge = {
 
   content: string,
 
-  output: string
+  output: string,
+
+  session: object
 }
 
 export type User = {
