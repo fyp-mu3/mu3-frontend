@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import { CodeChallenge } from '../models/Types'
 
 import CardView from './CardView'
+import RankLetter from './RankLetter'
 
 type PropsType = {
   item: CodeChallenge
@@ -57,7 +58,7 @@ export default class CodeChallegeListItemView extends React.Component<PropsType,
       >
         <div className='content'>{_item.description ? _item.description : _item.content}</div>
         <div className='flex' style={{alignItems: 'center'}}>
-          <div className='rankText'>{_item.rank}</div>
+          <div className='rankText'><RankLetter size='image is-24x24' char={_item.rank} /></div>
           <div className='spacer' />
           {this._renderActionButton()}
         </div>

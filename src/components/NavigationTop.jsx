@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Metrics from '../common/Metrics'
+import { Link } from 'react-router'
 
 class NavigationTop extends React.Component {
 
@@ -8,12 +9,12 @@ class NavigationTop extends React.Component {
     if (!this.props.currentUser) { return null }
 
     return (
-      <a className='flex flexCenterVertical'>
+      <Link className='flex flexCenterVertical' to={'/editProfile'}>
         {this.props.currentUser.profile.displayName}
         <span className='icon is-small' style={{marginLeft: 8}}>
           <i className='fa fa-angle-down' aria-hidden='true' />
         </span>
-      </a>
+      </Link>
     )
   }
 

@@ -37,10 +37,6 @@ class App extends React.Component {
         let emailAddress = nextProps.session.passport.user.extractedUser.emailAddress
         this._checkRegistered(emailAddress)
       }
-
-      if (nextProps.session.passport.user && nextProps.session.passport.user.extractedUser.emailAddress && !this.props.app.user) {
-        this.props.dispatch(AppActions.updateUser(nextProps.session.passport.user.extractedUser.emailAddress))
-      }
     }
   }
 
@@ -76,7 +72,9 @@ class App extends React.Component {
   }
 
   _renderRegisterScreen () {
-    return <RegisterScreen />
+    return (
+      <RegisterScreen />
+    )
   }
 
   render () {

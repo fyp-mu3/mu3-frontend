@@ -14,6 +14,10 @@ type Response = {
 let _store = null
 
 class Api {
+  constructor () {
+
+  }
+
   static subscribeStore(store) {
     _store = store
   }
@@ -40,8 +44,10 @@ class Api {
     username: null,
     firstName: null,
     lastName: null,
-    emailAddress: null
+    emailAddress: null,
+    profile: null
   }): Promise<Response> {
+    console.info(data);
     return new Promise((resolve, reject) => {
       let option = {
         method: 'PUT',
@@ -65,7 +71,15 @@ class Api {
       .then((response) => {
         response.json().then(json => resolve(json) )
       })
-      .catch(err => reject(err))
+      // .catch(err => reject(err))
+    })
+  }
+
+  static userUpdateRanking (username: string = ''): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      fetch(HOST_URL + `users/updateRanking?emailAddress=${username}`).then(response => {
+        response.json().then(json => resolve(json))
+      })
     })
   }
 
@@ -75,7 +89,7 @@ class Api {
       Api.authFetch(HOST_URL + 'jobs/companies/me', null).then((response) => {
         response.json().then(json => resolve(json))
       })
-      .catch(err => reject(err))
+      // .catch(err => reject(err))
     })
   }
 
@@ -90,6 +104,22 @@ class Api {
   static jobCreate (job): Promise<Response> {
     return new Promise((resolve, reject) => {
       Api.authFetch(HOST_URL + 'jobs/create', {body: job}).then((response) => {
+        response.json().then(json => resolve(json))
+      })
+    })
+  }
+
+  static jobApply (jobId): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      Api.authFetch(HOST_URL + 'jobs/apply', null, `&job_id=${jobId}`).then(response => {
+        response.json().then(json => resolve(json))
+      })
+    })
+  }
+
+  static jobGetRanking (jobId, industry): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      Api.authFetch(HOST_URL + 'jobs/computeRanking', null, `&job_id=${jobId}&industry=${industry}`).then(response => {
         response.json().then(json => resolve(json))
       })
     })

@@ -19,19 +19,19 @@ import { CodeChallengeActions } from '../reducers/CodeChallengesRedux'
 class CodeChallengesScreen extends React.PureComponent {
   _renderDescription () {
     return (
-      <p>
-        問題には制限時間があり、 一度のみのチャレンジとなります。制限時間内に出題された問題の解答コードを提出してください。 問題は約1週間ごとに追加されます。 一度獲得したpaizaランクは下がる事はありません。スキルチェックは問題・取得ランクともpaiza全サービスで共通です。
-        問題採点結果が合格点以上の場合、 トロフィー トロフィーが付与されます。
-      </p>
+      <CardView>
+        Solve the code challenges in limited time.
+      </CardView>
     )
   }
 
   _renderSummary () {
     return (
-      <CardView style={{marginTop: Metrics.baseMargin}}>
-        <div>Roy Tang Chun Yipさんの獲得トロフィー</div>
-        <div>合計獲得トロフィー： 2個</div>
-      </CardView>
+      // <CardView style={{marginTop: Metrics.baseMargin}}>
+      //   <div>Roy Tang Chun Yipさんの獲得トロフィー</div>
+      //   <div>合計獲得トロフィー： 2個</div>
+      // </CardView>
+      <div />
     )
   }
 

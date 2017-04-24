@@ -55,8 +55,8 @@ class CodeHelper {
     let _content = codeResult.result
 
     let result = {
-      stdout: _content.stdout,
-      stderr: _content.stderr,
+      stdout: _content.stdout || [],
+      stderr: _content.stderr || [],
       message: _content.message,
       result: _content.result,
       time: _content.time,

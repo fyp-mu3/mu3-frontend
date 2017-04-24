@@ -48,7 +48,7 @@ class PositionListView extends React.Component<Props, State> {
   _renderSearchBar () {
     return (
       <div className='control has-addons'>
-        <input className='input' type="text" placeholder='Find a position' onChange={this._handleSearchBarChange.bind(this)} />
+        <input className='input' type="text" placeholder='Find a position' onChange={this._handleSearchBarChange.bind(this)} value={this.props.jobs.search} />
         <button className='button'>Search</button>
       </div>
     )
@@ -66,9 +66,9 @@ class PositionListView extends React.Component<Props, State> {
         <div style={{flexGrow: 1, display: 'block'}} />
         {/* right */}
         <div className='flex flexCenterVertical flexApplySpaceMargin'>
-          <div>All</div>
+          {/* <div>All</div>
           <div>Related</div>
-          <div>Trending</div>
+          <div>Trending</div> */}
         </div>
       </div>
     )
@@ -116,7 +116,7 @@ class PositionListView extends React.Component<Props, State> {
     if (this.props.jobs.filteredItems && this.props.jobs.filteredItems.length > 0) {
       return this.props.jobs.filteredItems
     }
-    
+
     return this.props.jobs.items
   }
 

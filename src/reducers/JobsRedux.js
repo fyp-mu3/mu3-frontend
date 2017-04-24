@@ -12,7 +12,8 @@ const fuseOptions = {
   minMatchCharLength: 1,
   keys: [
     "title",
-    "company.name"
+    "company.name",
+    "company.industry"
   ]
 }
 
@@ -22,7 +23,8 @@ type State = {
   viewJobId: string,
   adminViewJobId: string,
   search: string,
-  filteredItems?: [Job]
+  filteredItems?: [Job],
+  fetchingRanking: boolean
 }
 
 const initialState: State = {
@@ -31,7 +33,8 @@ const initialState: State = {
   viewJobId: null,
   adminViewJobId: null,
   search: null,
-  filteredItems: null
+  filteredItems: null,
+  fetchingRanking: false
 }
 
 /** Actions */
@@ -71,6 +74,27 @@ export const JobsActions = {
       type: 'JOBS_SEARCH',
       payload: query
     }
+  },
+  computeRanking: (jobId, industry) => {
+    return {
+      type: 'JOBS_COMPUTE_RANKING',
+      payload: {
+        jobId: jobId,
+        industry: industry
+      }
+    }
+  },
+  computeRankingSuccess: () => {
+    return {
+      type: 'JOBS_COMPUTE_RANKING_SUCCESS',
+      payload: {}
+    }
+  },
+  apply: (jobId) => {
+    return {
+      type: 'JOBS_APPLY',
+      payload: jobId
+    }
   }
 }
 
@@ -106,6 +130,14 @@ const jobsReducer = (state: State = initialState, action: Action): State => {
 
   if (action.type === 'JOBS_SEARCH') {
     return {...state, search: action.payload, filteredItems: state.fuse.search(action.payload)}
+  }
+
+  if (action.type === 'JOBS_COMPUTE_RANKING') {
+    return {...state, fetchingRanking: true}
+  }
+
+  if (action.type === 'JOBS_COMPUTE_RANKING_SUCCESS') {
+    return {...state, fetchingRanking: false}
   }
 
   return state

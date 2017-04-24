@@ -10,6 +10,8 @@ import Loading from './Loading'
 import JobHelper from '../common/JobHelper'
 import { Job } from '../models/Types'
 
+import { JobsActions } from '../reducers/JobsRedux'
+
 class JobScreen extends React.Component {
 
   constructor (props) {
@@ -21,11 +23,8 @@ class JobScreen extends React.Component {
   }
 
   _onApplyButtonClick (event) {
-    this.setState({
-      loading: true
-    })
-
-    JobHelper.applyWithId(this.props.job.id, this.props.app.user.emailAddress)
+    // JobHelper.applyWithId(this.props.job.id, this.props.app.user.emailAddress)
+    this.props.applyJob(this.props.job.id)
   }
 
   _renderJobList () {
@@ -38,7 +37,7 @@ class JobScreen extends React.Component {
 
   _renderJobTitle () {
     return (
-      <h1>{this.props.job.title}</h1>
+      <h1>{this.props.job.company.name} - {this.props.job.title}</h1>
     )
   }
 
@@ -46,13 +45,26 @@ class JobScreen extends React.Component {
     const job = this.props.job
     return (
       <CardView renderHeader={this._renderJobTitle.bind(this)}>
-        <div className='content'>{job.description}</div>
+        <div className='field'>
+          <label className='label'>Title</label>
+          <input className='input' disabled type='text' value={job.title} />
+        </div>
+        <div className='field'>
+          <label className='label'>Description</label>
+          <input className='input' disabled type='text' value={job.description} />
+        </div>
+        <div className='field'>
+          <label className='label'>Salary</label>
+          <input className='input' disabled type='text' value={job.salary} />
+        </div>
+
         { this.state.loading ?
           <Loading color='#26A65B' size='8px' margin='4px' /> :
           <button
             className='button is-primary'
             type='button'
-            onClick={this._onApplyButtonClick.bind(this)}>Apply</button>
+            disabled={this.props.job.applied}
+            onClick={this._onApplyButtonClick.bind(this)}>{this.props.job.applied ? 'Applied' : 'Apply'}</button>
         }
       </CardView>
     )
@@ -68,6 +80,7 @@ class JobScreen extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    applyJob: (jobId) => { dispatch(JobsActions.apply(jobId)) }
   }
 }
 

@@ -4,7 +4,8 @@ import Api from '../common/Api'
 
 const initialState = {
   showRegisterScreen: false,
-  user: null
+  user: null,
+  ranking: {}
 }
 
 export const AppActions = {
@@ -14,16 +15,34 @@ export const AppActions = {
       payload: display
     }
   },
-  updateUser: (email: string) => (dispatch) => {
-    if (!email) { return }
-    console.log(email)
+  // updateUser: (email: string) => (dispatch) => {
+  //   if (!email) { return }
+  //   console.log(email)
 
-    Api.usersGetByEmail(email)
-    .then(userObj => {dispatch({
-        type: 'APP_UPDATE_USER',
-        payload: userObj
-      }); console.log(userObj)}
-    )
+  //   Api.usersGetByEmail(email)
+  //   .then(userObj => {dispatch({
+  //       type: 'APP_UPDATE_USER',
+  //       payload: userObj
+  //     }); console.log(userObj)}
+  //   )
+  // }
+  updateUser: (userObj) => {
+    return {
+      type: 'APP_UPDATE_USER',
+      payload: userObj
+    }
+  },
+  updateRankingRequest: (username) => {
+    return {
+      type: 'APP_UPDATE_RANKING_REQUEST',
+      payload: username
+    }
+  },
+  updateRankingSuccess: (ranking) => {
+    return {
+      type: 'APP_UPDATE_RANKING_SUCCESS',
+      payload: ranking
+    }
   }
 }
 
@@ -35,6 +54,14 @@ const appReducer = (state = initialState, action) => {
 
   if (action.type === 'APP_UPDATE_USER') {
     return {...state, user: action.payload}
+  }
+
+  if (action.type === 'APP_UPDATE_RANKING_REQUEST') {
+    return state
+  }
+
+  if (action.type === 'APP_UPDATE_RANKING_SUCCESS') {
+    return {...state, ranking: {...state.ranking, [action.payload.username]: action.payload}}
   }
 
   return state

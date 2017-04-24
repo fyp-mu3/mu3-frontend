@@ -63,7 +63,7 @@ class CompanyAdminScreen extends React.Component {
 
   _renderJobRow (data: Job, rowID, sectionID) {
     return (
-      <CardView>
+      <CardView key={`company-admin-screen-${rowID}`}>
         <div className='flex'>
           {data.title}
           <div className='spacer' />

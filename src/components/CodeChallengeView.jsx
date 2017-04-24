@@ -25,6 +25,8 @@ import ReactMarkDown from 'react-markdown'
 
 import SweetAlert from 'sweetalert-react'
 
+import RankLetter from './RankLetter'
+
 const languageOptions = [
   'ruby',
   'python3',

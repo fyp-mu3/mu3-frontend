@@ -11,6 +11,7 @@ import Logout from '../components/Logout'
 import HRScreen from '../components/HRScreen'
 import CompanyAdminScreen from '../components/CompanyAdminScreen'
 import JobAdminScreen from '../components/JobAdminScreen'
+import EditProfileScreen from '../components/EditProfileScreen'
 
 const _Router = (history) => {
   return (
@@ -28,6 +29,7 @@ const _Router = (history) => {
         <Route path='/hr' component={HRScreen} />
         <Route path='/hr/view' component={CompanyAdminScreen} />
         <Route path='/hr/job' component={JobAdminScreen} />
+        <Route path='/editProfile' component={EditProfileScreen} />
       </Route>
 
       <Route path='/login' component={AuthScreen} />
