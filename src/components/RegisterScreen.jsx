@@ -19,6 +19,22 @@ import CardView from '../components/CardView'
 
 import { routerActions } from 'react-router-redux'
 
+import includes from 'lodash/includes'
+
+import Fuse from 'fuse.js'
+const fuseOptions = {
+  shouldSort: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 100,
+  minMatchCharLength: 1,
+  keys: [
+    "name",
+    "abbr",
+  ]
+}
+
 const CORNER_RADIUS = 8
 
 class RegisterScreen extends React.Component {
@@ -29,7 +45,8 @@ class RegisterScreen extends React.Component {
       loading: false,
       firstName: this._getLinkedInProfileFirstName(),
       lastName: this._getLinkedInProfileLastName(),
-      showMBTIDetail: false
+      showMBTIDetail: false,
+      'education-name': ''
     }
 
     this._getLinkedInProfilePositions().forEach((position, index) => {
@@ -52,6 +69,14 @@ class RegisterScreen extends React.Component {
           [`input-position-${index}-name`]: position.company.name,
           [`input-position-${index}-title`]: position.title
         })
+      })
+    }
+  }
+
+  _handleChangeFocus (focused, event) {
+    if (event.target) {
+      this.setState({
+        [`focus-${event.target.name}`]: focused
       })
     }
   }
@@ -88,6 +113,9 @@ class RegisterScreen extends React.Component {
         }
       )
     })
+
+    const isTop100u = includes(this.props.universities.map(item => item.name), this.state['education-name'])
+    _profile.isTop100u = isTop100u
 
     Api.userUpdate({
       username: this.refs.emailAddressInput.value,
@@ -312,6 +340,37 @@ class RegisterScreen extends React.Component {
     )
   }
 
+  _shouldShowAutoComplete () {
+    if (this.state['focus-education-name'] && this.state['education-name']) {
+      let input = this.state['education-name']
+      let fuse = new Fuse(this.props.universities, fuseOptions)
+      let items = fuse.search(input)
+      return (items.length > 0)
+    }
+
+    return false
+  }
+
+  _renderUniversityAutoComplete () {
+    let shouldShow = this._shouldShowAutoComplete()
+
+    let input = this.state['education-name']
+    let fuse = new Fuse(this.props.universities, fuseOptions)
+    let items = fuse.search(input)
+
+    return (
+      <div className='flex flexCol' style={{position: 'absolute', width: 250, height: 300, backgroundColor: 'white', left: 0, zIndex: 999, border: '1px solid #E6E9ED', padding: 16, overflowY: 'scroll', display: shouldShow ? 'flex' : 'none'}}>
+        <table className='table'><tbody>
+        {
+          items.map((item, index) => {
+            return <tr key={`universities-${index}`}><td onMouseDown={() => this.setState({'education-name': item.name})}><a>{item.name}</a></td></tr>
+          })
+        }
+        </tbody></table>
+      </div>
+    )
+  }
+
   _renderExperienceForm () {
     return (
       <div className='flex flexCol'>
@@ -319,7 +378,10 @@ class RegisterScreen extends React.Component {
           <label className='label'>Education</label>
           <div className='field-body'>
             <div className='field'>
-              <p className='control'><input className='input' type='text' placeholder='University of ...' name='education-name' onChange={this._handleInputChange.bind(this)} value={this.state['education-name']} /></p>
+              <div className='control'>
+                <input className='input' type='text' placeholder='University of ...' name='education-name' onChange={this._handleInputChange.bind(this)} value={this.state['education-name']} onFocus={this._handleChangeFocus.bind(this, true)} onBlur={this._handleChangeFocus.bind(this, false)} />
+                {this._renderUniversityAutoComplete()}
+              </div>
             </div>
             <div className='field'>
               <p className='control'>
@@ -393,7 +455,8 @@ class RegisterScreen extends React.Component {
 const mapStateToProps = (state) => {
   return {
     passport: state.session.passport,
-    linkedInProfile: state.session.passport ? new LinkedInProfile(state.session.passport.user) : null
+    linkedInProfile: state.session.passport ? new LinkedInProfile(state.session.passport.user) : null,
+    universities: state.app.universities || []
   }
 }
 

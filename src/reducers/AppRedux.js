@@ -5,7 +5,8 @@ import Api from '../common/Api'
 const initialState = {
   showRegisterScreen: false,
   user: null,
-  ranking: {}
+  ranking: {},
+  universities: []
 }
 
 export const AppActions = {
@@ -43,6 +44,18 @@ export const AppActions = {
       type: 'APP_UPDATE_RANKING_SUCCESS',
       payload: ranking
     }
+  },
+  fetchUniversitiesRequest: () => {
+    return {
+      type: 'APP_FETCH_UNIVERSITIES_REQUEST',
+      payload: null
+    }
+  },
+  fetchUniversitiesSuccess: (items) => {
+    return {
+      type: 'APP_FETCH_UNIVERSITIES_SUCCESS',
+      payload: items
+    }
   }
 }
 
@@ -62,6 +75,10 @@ const appReducer = (state = initialState, action) => {
 
   if (action.type === 'APP_UPDATE_RANKING_SUCCESS') {
     return {...state, ranking: {...state.ranking, [action.payload.username]: action.payload}}
+  }
+
+  if (action.type === 'APP_FETCH_UNIVERSITIES_SUCCESS') {
+    return {...state, universities: action.payload}
   }
 
   return state

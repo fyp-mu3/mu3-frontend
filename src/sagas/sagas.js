@@ -41,6 +41,7 @@ function* userDidUpdate (action) {
   yield put(JobsActions.fetch())
   yield put(CodeChallengeActions.fetch())
   yield updateRankingRequest({type: action.type, payload: action.payload.username})
+  yield put(AppActions.fetchUniversitiesRequest())
 }
 
 function* updateRankingRequest (action) {
@@ -49,6 +50,17 @@ function* updateRankingRequest (action) {
     const jsonResponse = yield call(Api.userUpdateRanking, action.payload)
     if (jsonResponse.status === 1 && jsonResponse.data && jsonResponse.data.username) {
       yield put(AppActions.updateRankingSuccess(jsonResponse.data))
+    }
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+function* fetchUniversities (action) {
+  try {
+    const jsonResponse = yield call(Api.fetchUniversities)
+    if (jsonResponse.status === 1) {
+      yield put(AppActions.fetchUniversitiesSuccess(jsonResponse.data))
     }
   } catch (e) {
     console.error(e)
@@ -93,6 +105,8 @@ function* fetchJob (action) {
 }
 
 function* applyJob (action) {
+  yield delay(1000)
+
   const response = yield call(Api.jobApply, action.payload)
 
   yield fetchJob()
@@ -140,6 +154,7 @@ function* mySaga () {
   /** AppState */
   yield takeLatest('APP_UPDATE_USER', userDidUpdate)
   yield takeEvery('APP_UPDATE_RANKING_REQUEST', updateRankingRequest)
+  yield takeLatest('APP_FETCH_UNIVERSITIES_REQUEST', fetchUniversities)
 
   /** Jobs */
   yield takeLatest('COMPANY_ADMIN_VIEW_REQUEST', adminViewCompany)

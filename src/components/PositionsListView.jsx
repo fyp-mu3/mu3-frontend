@@ -14,6 +14,8 @@ import { routerActions } from 'react-router-redux'
 
 import { Job } from '../models/Types'
 
+import JobHelper from '../common/JobHelper'
+
 type Props = {
   items: [Job],
 }
@@ -75,35 +77,43 @@ class PositionListView extends React.Component<Props, State> {
   }
 
   _renderRow (rowData: Job, rowID) {
+    const labelColor = rowID % 2 == 0 ? 'white' : 'light'
+    const letterRank = JobHelper.letterRank(rowData.rankRequired)
     return (
       <div 
         key={`PositionListView-${rowID}`}
-        className='flex flexApplySpaceMargin'
+        className='flex flexApplySpaceMargin flexCenterVertical'
         style={{
           backgroundColor: rowID % 2 == 0 ? '#F5F5F5' : 'transparent',
-          alignItems: 'center',
-          justifyContent: 'center'
+          alignItems: 'stretch'
         }}>
-        <div className='flex'
-          style={{width: 80, height: 80, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center'}}>
-          <figure className='image is-64x64'><img src={`${rowData.company ? rowData.company.image : null}`} /></figure>
-        </div>
-        <div>{rowData.title}</div>
-        <div className='spacer'></div>
-        <div>
-          <button 
-            data-row={JSON.stringify(rowData)}
-            style={{marginRight: 16}}
-            className={rowData.applied ? 'button is-info' : 'button is-primary'}
-            type='button'
-            disabled={rowData.applied}
-            onClick={this._onApplyJobButtonClick.bind(this)}>{rowData.applied ? 'Applied' : 'Apply'}</button>
-          { rowData.applied &&
-            <button
-              style={{marginRight: 8}}
-              className='button'>View Application</button>
-          }
-        </div>
+          <div className='flex'
+            style={{width: 80, height: 80, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center'}}>
+            <figure className='image is-64x64'><img src={`${rowData.company ? rowData.company.image : null}`} /></figure>
+          </div>
+          <div className='flex flexCol' style={{flexGrow: 1}}>
+            <div className='flex flexApplySpaceMargin flexCenterVertical' style={{flexGrow: 1}}>
+              <div>{rowData.title}</div>
+              <div className='spacer'></div>
+              <div>
+                <button 
+                  data-row={JSON.stringify(rowData)}
+                  style={{marginRight: 16}}
+                  className={rowData.applied ? 'button is-info' : 'button is-primary'}
+                  type='button'
+                  disabled={rowData.applied}
+                  onClick={this._onApplyJobButtonClick.bind(this)}>{rowData.applied ? 'Applied' : 'Apply'}</button>
+                { rowData.applied &&
+                  <button
+                    style={{marginRight: 8}}
+                    className='button'>View Application</button>
+                }
+              </div>
+            </div>
+            <div className='flex' style={{marginBottom: 8, justifyContent: 'flex-start', marginRight: 8}}>
+              <span className={`tag is-${labelColor}`}>Required rank : {letterRank}</span>
+            </div>
+          </div>
       </div>
     )
   }

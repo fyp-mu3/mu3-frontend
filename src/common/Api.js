@@ -144,6 +144,16 @@ class Api {
     })
   }
 
+  /** Universities */
+
+  static fetchUniversities (): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      fetch(HOST_URL + 'universities').then(response => {
+        response.json().then(json => resolve(json))
+      })
+    })
+  }
+
   /** Commons */
   static authFetch(url, options, extras) {
     let _user = _store.getState().app.user

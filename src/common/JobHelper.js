@@ -18,5 +18,12 @@ export default {
     } else {
       return null
     }
+  },
+
+  letterRank: (rank) => {
+    if (rank === 3) return 'S'
+    if (rank === 2) return 'A'
+    if (rank === 1) return 'B'
+    if (rank === 0) return 'C'
   }
 }

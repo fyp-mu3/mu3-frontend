@@ -12,6 +12,8 @@ import { CodeChallengeActions } from '../reducers/CodeChallengesRedux'
 
 import { nth } from 'lodash/nth'
 
+import RankLetter from './RankLetter'
+
 class RankingInfoView extends React.PureComponent {
 
   _getUser () {
@@ -22,12 +24,27 @@ class RankingInfoView extends React.PureComponent {
     return session.passport.user
   }
 
+  _getRanking () {
+    if (this.props.currentUser) {
+      return this.props.ranking ? this.props.ranking[this.props.currentUser.emailAddress] : null
+    }
+
+    return null
+  }
+
   _renderLoginBox () {
     return <div />
   }
 
   _renderLeftHeader () {
-    return <h1>Your Rank</h1>
+    return (
+      <div className='flex flexCenterVertical flexApplySpaceMargin'>
+        <span className="icon is-medium">
+          <i className="fa fa-trophy"></i>
+        </span>
+        <h1>You Status</h1>
+      </div>
+    )
   }
 
   _renderRightHeader () {
@@ -50,6 +67,35 @@ class RankingInfoView extends React.PureComponent {
   }
   /** end ListView delegate */
 
+  _renderRankingInfo () {
+    const ranking = this._getRanking()
+    const user = this.props.currentUser
+    if (!ranking) return <div />
+    if (!user) return <div />
+
+    let solvedChallengeCount = ranking.numSolvedChallenges || 0
+
+    return (
+      <div className='flex flexCenterVertical'>
+        <div className='flex flexCol' style={{alignItems: 'stretch'}}>
+          <span>{`${user.firstName} ${user.lastName}'s ranking`}</span>
+          <table className='table'><tbody>
+            <tr className='is-selected'>
+              <td>Ranking</td><td><RankLetter char={ranking.rank} size='image is-16x16' /></td>
+            </tr>
+            <tr>
+              <td>Solved Challenges</td><td>{solvedChallengeCount}</td>
+            </tr>
+          </tbody></table>
+          <div className='notification is-primary'>
+            <button className="delete" disabled></button>
+            Improve your ranking to unlock more jobs
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render () {
     let _user = this._getUser()
 
@@ -58,7 +104,7 @@ class RankingInfoView extends React.PureComponent {
     return (
       <div className='flex flexApplySpaceMargin'>
         <CardView style={{flex: 1}} renderHeader={this._renderLeftHeader.bind(this)}>
-          <div>{_user.profile.displayName}'s ranking in code challenges - A</div>
+          {this._renderRankingInfo()}
         </CardView>
         <CardView style={{flex: 1}} renderHeader={this._renderRightHeader.bind(this)}>
           <ListView
@@ -72,8 +118,10 @@ class RankingInfoView extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
+    currentUser: state.app.user,
     session: state.session,
-    codeChallenges: state.codeChallenges
+    codeChallenges: state.codeChallenges,
+    ranking: state.app.ranking
   }
 }
 

@@ -58,16 +58,34 @@ class JobScreen extends React.Component {
           <input className='input' disabled type='text' value={job.salary} />
         </div>
 
-        { this.state.loading ?
-          <Loading color='#26A65B' size='8px' margin='4px' /> :
-          <button
-            className='button is-primary'
-            type='button'
-            disabled={this.props.job.applied}
-            onClick={this._onApplyButtonClick.bind(this)}>{this.props.job.applied ? 'Applied' : 'Apply'}</button>
-        }
+        {this._renderActionButton()}
       </CardView>
     )
+  }
+
+  _renderActionButton () {
+    if (this.state.loading) {
+      return (
+        <Loading color='#26A65B' size='8px' margin='4px' />
+      )
+    }
+    
+    if (this.props.job.canApply) {
+      return (
+        <button
+          className='button is-primary'
+          type='button'
+          disabled={this.props.job.applied}
+          onClick={this._onApplyButtonClick.bind(this)}>{this.props.job.applied ? 'Applied' : 'Apply'}</button>
+      )
+    } else {
+      return (
+        <button
+          className='button is-warning'
+          type='button'
+          disabled>This job required rank <b>{JobHelper.letterRank(this.props.job.rankRequired)}</b></button>
+      )
+    }
   }
 
   render () {

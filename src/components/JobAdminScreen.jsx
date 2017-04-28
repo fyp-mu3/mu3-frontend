@@ -49,12 +49,12 @@ class JobAdminScreen extends React.Component {
           <span><figure className='image is-64x64'><img src={data.profile.profilePic} style={{borderRadius: 64 / 2}} /></figure></span>
           <span><h2>{displayName}</h2></span>
           <div className='spacer' />
-          <span><button className='button is-info'>
+          <span><a className='button is-info' href={`${data.profile.linkedInUrl}`} target='_blank'>
             <span className='icon'><i className="fa fa-linkedin" aria-hidden="true"></i></span>
-          </button></span>
-          <span><button className='button is-primary'>
+          </a></span>
+          <span><a className='button is-primary' href={`mailto:${data.emailAddress}`} target='_blank'>
             <span className='icon'><i className="fa fa-envelope" aria-hidden="true"></i></span>
-          </button></span>
+          </a></span>
         </div>
       )
     }

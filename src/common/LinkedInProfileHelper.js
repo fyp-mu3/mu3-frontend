@@ -8,6 +8,7 @@ export default class LinkedInProfile {
   emailAddress: string;
   profilePic: string;
   positions: [object];
+  linkedInUrl: string;
 
   constructor (user) {
     this.accessToken = user.accessToken
@@ -24,6 +25,7 @@ export default class LinkedInProfile {
         this.profilePic = json.pictureUrls.values[0]
       }
       this.positions = json.positions
+      this.linkedInUrl = json.publicProfileUrl
     }
   }
 }
