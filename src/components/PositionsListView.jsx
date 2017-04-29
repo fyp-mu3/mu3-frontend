@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import CardView from './CardView'
 import ListView from './ListView'
+import JobItemView from './JobItemView'
 
 import Metrics from '../common/Metrics'
 import _ from 'lodash'
@@ -50,7 +51,7 @@ class PositionListView extends React.Component<Props, State> {
   _renderSearchBar () {
     return (
       <div className='control has-addons'>
-        <input className='input' type="text" placeholder='Find a position' onChange={this._handleSearchBarChange.bind(this)} value={this.props.jobs.search} />
+        <input className='input' type="text" placeholder='Find a position' onChange={this._handleSearchBarChange.bind(this)} value={this.props.jobs.search || ''} />
         <button className='button'>Search</button>
       </div>
     )
@@ -130,6 +131,12 @@ class PositionListView extends React.Component<Props, State> {
     return this.props.jobs.items
   }
 
+  _renderRow2 = (job: Job, rowID: number) => {
+    return (
+      <div key={`renderRow2-${rowID}`}><JobItemView job={job} onApplyJobButtonClick={this._onApplyJobButtonClick.bind(this)}/></div>
+    )
+  }
+
   render () {
     return (
       <CardView
@@ -137,7 +144,7 @@ class PositionListView extends React.Component<Props, State> {
         renderHeader={this._renderHeader.bind(this)}>
         <ListView
           dataSource={this._prepareDataSource()}
-          renderRow={this._renderRow.bind(this)}
+          renderRow={this._renderRow2.bind(this)}
         />
       </CardView>
     )

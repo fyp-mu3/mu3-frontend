@@ -26,7 +26,7 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    
+    this.props.dispatch(AppActions.startup())
   }
 
   componentWillReceiveProps (nextProps) {

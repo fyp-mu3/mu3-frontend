@@ -73,7 +73,7 @@ class NavigationMenu extends React.Component {
 class NavigationLeft extends React.Component {
 
   _prepareDataSource () {
-    return [
+    let navigationItems = [
       {
         key: 'home',
         title: 'Home',
@@ -89,16 +89,23 @@ class NavigationLeft extends React.Component {
         iconUri: 'fa fa-code'
       },
       {
-        key: 'hr',
-        title: 'Companies',
-        url: '/hr'
-      },
-      {
         key: 'Logout',
         title: 'Logout',
         url: '/logout'
       }
     ]
+    
+    if (this.props.companies && this.props.companies.items && this.props.companies.items.length > 0) {
+      navigationItems.splice(2, 0,
+        {
+          key: 'hr',
+          title: 'Companies',
+          url: '/hr'
+        }
+      )
+    }
+
+    return navigationItems
   }
 
   _renderLogo () {
@@ -138,7 +145,8 @@ class NavigationLeft extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.session.passport ? state.session.passport.user : null
+    currentUser: state.session.passport ? state.session.passport.user : null,
+    companies: state.companies
   }
 }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { routerActions } from 'react-router-redux'
 import { SessionActions } from '../reducers/SessionRedux'
+import CardView from './CardView'
 
 class AuthScreen extends React.Component {
   constructor (props) {
@@ -71,10 +72,32 @@ class AuthScreen extends React.Component {
     }
   }
 
+  _renderLogo () {
+    return (
+      <div style={{
+        padding: 8,
+        color: 'dark',
+        fontSize: 25,
+        fontWeight: 'normal'
+      }} className='flex flexCenterVertical flexApplySpaceMargin'>
+        <span className='icon is-medium'><i className='fa fa-eercast' aria-hidden='true' /></span>
+        <span>Project MU3</span>
+      </div>
+    )
+  }
+
   _renderLoginBox () {
     return (
-      <div>
-        <a href={'http://localhost:3000/auth/linkedin'}>Login with LinkedIn</a>
+      <div className='flex flexCol flexCenter' style={{height: '100vh', backgroundImage: 'url(/images/background.jpg)', backgroundSize: 'cover', backgroundPosition: '50%'}}>
+        <CardView style={{padding: 60, backgroundColor: '#FFFFFFBB'}}>
+          {this._renderLogo()}
+          <a className='button is-info' href={'http://localhost:3000/auth/linkedin'}>
+            <span className='icon'>
+              <i className='fa fa-linkedin' />
+            </span>
+            <span>Login with LinkedIn</span>
+          </a>
+        </CardView>
       </div>
     )
   }

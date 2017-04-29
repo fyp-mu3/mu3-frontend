@@ -27,6 +27,11 @@ export const AppActions = {
   //     }); console.log(userObj)}
   //   )
   // }
+  startup: () => {
+    return {
+      type: 'APP_STARTUP'
+    }
+  },
   updateUser: (userObj) => {
     return {
       type: 'APP_UPDATE_USER',

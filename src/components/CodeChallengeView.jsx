@@ -9,6 +9,7 @@ import SmallLoading from 'halogen/MoonLoader'
 
 import type { CodeChallenge } from '../models/Types'
 import { CodeChallengeActions } from '../reducers/CodeChallengesRedux'
+import { AppActions } from '../reducers/AppRedux'
 
 import brace from 'brace'
 import AceEditor from 'react-ace'
@@ -339,6 +340,7 @@ class CodeChallengeView extends React.Component {
   }
 
   _isAC () {
+    this.props.updateRank(this.props.user.emailAddress)
     return this.state.testcases.filter((item) => item.status === false).length === 0
   }
 
@@ -379,13 +381,15 @@ class CodeChallengeView extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.app.user,
     challenge: state.codeChallenges.currentChallengeId ? state.codeChallenges.items.find(item => item.id === state.codeChallenges.currentChallengeId) : null
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    startChallenge: (id, result) => dispatch(CodeChallengeActions.start(id, result))
+    startChallenge: (id, result) => dispatch(CodeChallengeActions.start(id, result)),
+    updateRank: (username: string) => dispatch(AppActions.updateRankingRequest(username))
   }
 }
 

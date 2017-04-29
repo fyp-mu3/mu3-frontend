@@ -12,6 +12,8 @@ import { Job } from '../models/Types'
 
 import { JobsActions } from '../reducers/JobsRedux'
 
+import JobItemView from './JobItemView'
+
 class JobScreen extends React.Component {
 
   constructor (props) {
@@ -90,8 +92,15 @@ class JobScreen extends React.Component {
 
   render () {
     if (this.props.job) {
-      return this._renderJobInfo()
+      return (
+        <div className='flex flexCol'>
+          <JobItemView job={this.props.job} full />
+          <hr />
+          {this._renderActionButton()}
+        </div>
+      )
     }
+
     return this._renderJobList()
   }
 }

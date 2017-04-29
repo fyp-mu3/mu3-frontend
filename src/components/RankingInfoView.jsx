@@ -54,6 +54,10 @@ class RankingInfoView extends React.PureComponent {
   /** ListView delegate: Latest Challenges */
   _prepareDataSource () {
     if (this.props.codeChallenges.items.length > 0) {
+      let unsolved = this.props.codeChallenges.items.filter(item => item.session && !item.session.result)
+      if (unsolved.length > 0) {
+        return [unsolved[0]]
+      }
       return [this.props.codeChallenges.items[0]]
     } else {
       return []

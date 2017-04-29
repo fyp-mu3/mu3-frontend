@@ -191,7 +191,7 @@ class RegisterScreen extends React.Component {
 
   _getLinkedInProfilePositions () {
     if (this.props.linkedInProfile && this.props.linkedInProfile.positions) {
-      return this.props.linkedInProfile.positions.values
+      return this.props.linkedInProfile.positions.values || []
     }
 
     return []

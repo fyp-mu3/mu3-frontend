@@ -14,6 +14,10 @@ import { REHYDRATE } from 'redux-persist/constants'
 
 import { routerActions } from 'react-router-redux'
 
+function* startup (action) {
+  yield put(AppActions.fetchUniversitiesRequest())
+}
+
 function* appDidRehydrate (action) {
   if (action.payload.session) {
     yield put(SessionActions.updateSession(action.payload.session))
@@ -21,8 +25,8 @@ function* appDidRehydrate (action) {
 }
 
 function* sessionDidUpdate (action) {
-
   const { passport } = action.payload
+  if (!passport) { return }
 
   if (passport.user && passport.user.extractedUser && passport.user.extractedUser.emailAddress) {
     const userObj = yield call(Api.usersGetByEmail, passport.user.extractedUser.emailAddress)
@@ -45,11 +49,12 @@ function* userDidUpdate (action) {
 }
 
 function* updateRankingRequest (action) {
-  console.info(action);
   try {
+    console.info('updateRankingRequest', jsonResponse);
     const jsonResponse = yield call(Api.userUpdateRanking, action.payload)
     if (jsonResponse.status === 1 && jsonResponse.data && jsonResponse.data.username) {
       yield put(AppActions.updateRankingSuccess(jsonResponse.data))
+      yield put(JobsActions.fetch())
     }
   } catch (e) {
     console.error(e)
@@ -147,6 +152,9 @@ function* computeRanking (action) {
 }
 
 function* mySaga () {
+
+  yield takeLatest('APP_STARTUP', startup)
+
   /** Session */
   yield takeLatest(REHYDRATE, appDidRehydrate)
   yield takeLatest('SESSION_UPDATE', sessionDidUpdate)
